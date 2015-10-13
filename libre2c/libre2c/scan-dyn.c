@@ -62,9 +62,7 @@ scanstate* dynscan_create(size_t bufsiz)
 
 void dynscan_free(scanstate *ss)
 {
-    if(ss->bufptr) {
-        free((void*)ss->bufptr);
-    }
+    free((void*)ss->bufptr);
 
     free(ss);
 }
