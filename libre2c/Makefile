@@ -4,7 +4,7 @@
 
 VERSION=0.7
 
-COPTS=-g -Wall -Werror
+COPTS=-g -Wall
 
 CSRC+=$(wildcard re2c/*.c)
 CHDR+=$(wildcard re2c/*.h)

@@ -1,4 +1,4 @@
-COPTS=-g -Wall -Werror
+COPTS=-g -Wall
 
 CSRC+=$(wildcard ../../libre2c/*.c)
 CHDR+=$(wildcard ../../libre2c/*.h)

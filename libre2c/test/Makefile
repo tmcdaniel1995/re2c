@@ -1,7 +1,7 @@
 CSRC+=$(wildcard ../libre2c/*.c)
 CHDR+=$(wildcard ../libre2c/*.h)
 
-COPTS=-Wall -Werror -g
+COPTS=-Wall -g
 CMPLOC=../examples/compare
 
 all: tester
