@@ -30,8 +30,8 @@ void dump_adfa(const DFA &dfa)
 	fprintf(stderr,
 		"digraph DFA {\n"
 		"  rankdir=LR\n"
-		"  node[shape=Mrecord fontname=fixed]\n"
-		"  edge[arrowhead=vee fontname=fixed]\n\n");
+		"  node[shape=Mrecord fontname=Courier]\n"
+		"  edge[arrowhead=vee fontname=Courier]\n\n");
 
 	fprintf(stderr,
 		"  n [shape=point]"

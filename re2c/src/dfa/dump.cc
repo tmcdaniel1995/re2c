@@ -34,8 +34,8 @@ dump_dfa_t::dump_dfa_t(const dfa_t &d, const Tagpool &pool, const nfa_t &n)
 	shadow = new closure_t;
 	fprintf(stderr, "digraph DFA {\n"
 		"  rankdir=LR\n"
-		"  node[shape=plaintext fontname=fixed]\n"
-		"  edge[arrowhead=vee fontname=fixed]\n\n");
+		"  node[fontname=Courier shape=plaintext]\n"
+		"  edge[fontname=Courier arrowhead=vee]\n\n");
 }
 
 dump_dfa_t::~dump_dfa_t()
@@ -71,7 +71,7 @@ static void dump_history(const dfa_t &dfa, const tagtree_t &h, hidx_t i)
 	fprintf(stderr, " ");
 }
 
-void dump_dfa_t::closure_tags(cclositer_t c)
+void dump_dfa_t::closure_tags(cclositer_t c, bool shadowed)
 {
 	if (!debug) return;
 	if (c->tvers == ZERO_TAGS) return;
@@ -83,9 +83,14 @@ void dump_dfa_t::closure_tags(cclositer_t c)
 
 	for (size_t t = 0; t < ntag; ++t) {
 		fprintf(stderr, " %s%d", tagname(dfa.tags[t]), abs(vers[t]));
-//		if (tagpool.opts->posix_captures) {
-//			fprintf(stderr, "[%d]", ords[t]);
-//		}
+		if (tagpool.opts->posix_captures && (t == 0)) {
+//		if (tagpool.opts->posix_captures && (t % 2 == 1 || orbit(dfa.tags[t]))) {
+			if (shadowed) {
+//				fprintf(stderr, "[ ]");
+			} else {
+//				fprintf(stderr, "[%d]", ords[t]);
+			}
+		}
 	}
 
 	if (l != HROOT) {
@@ -93,7 +98,8 @@ void dump_dfa_t::closure_tags(cclositer_t c)
 	}
 }
 
-void dump_dfa_t::closure(const closure_t &clos, uint32_t state, bool isnew)
+void dump_dfa_t::closure(const closure_t &clos, uint32_t state, bool isnew,
+	const bmatrix_t *bmatrix)
 {
 	if (!debug) return;
 
@@ -103,7 +109,8 @@ void dump_dfa_t::closure(const closure_t &clos, uint32_t state, bool isnew)
 		*style = isnew ? "" : " STYLE=\"dotted\"",
 		*color = " COLOR=\"lightgray\"";
 
-	fprintf(stderr, "  %s%u [label=<<TABLE"
+//	fprintf(stderr, "  %s%u [label=<<TABLE"
+	fprintf(stderr, "  %s%u [label=<<TABLE><TR><TD><TABLE"
 		" BORDER=\"0\""
 		" CELLBORDER=\"1\""
 		">", isnew ? "" : "i", state);
@@ -111,7 +118,7 @@ void dump_dfa_t::closure(const closure_t &clos, uint32_t state, bool isnew)
 	for (s = s1; s != s2; ++s) {
 		fprintf(stderr, "<TR><TD ALIGN=\"left\" PORT=\"_%u_%d\"%s%s><FONT%s>%u",
 			index(s->state), (int)(s - s1), color, style, color, index(s->state));
-		closure_tags(s);
+		closure_tags(s, true);
 		fprintf(stderr, "</FONT></TD></TR>");
 	}
 	if (!shadow->empty()) {
@@ -120,17 +127,25 @@ void dump_dfa_t::closure(const closure_t &clos, uint32_t state, bool isnew)
 	for (c = c1; c != c2; ++c) {
 		fprintf(stderr, "<TR><TD ALIGN=\"left\" PORT=\"%u\"%s>%u",
 			index(c->state), style, index(c->state));
-		closure_tags(c);
+		closure_tags(c, false);
 		fprintf(stderr, "</TD></TR>");
 	}
+	fprintf(stderr, "</TABLE></TD></TR>\n");
+
+//	for (bmatrix_t::const_iterator i = bmatrix.begin(); i != bmatrix.end(); ++i) {
+//		fprintf(stderr, "<TR><TD>\n");
+//		fprintf(stderr, "(%u,%u) %d - %d\n", index(i->first.first), index(i->first.second), i->second, dmatrix.find(i->first)->second);
+//		fprintf(stderr, "</TD></TR>\n");
+//	}
+
 	fprintf(stderr, "</TABLE>>]\n");
 }
 
-void dump_dfa_t::state0(const closure_t &clos)
+void dump_dfa_t::state0(const closure_t &clos, const bmatrix_t *bmatrix)
 {
 	if (!debug) return;
 
-	closure(clos, 0, true);
+	closure(clos, 0, true, bmatrix);
 	fprintf(stderr, "  void [shape=point]\n");
 	for (cclositer_t c = shadow->begin(); c != shadow->end(); ++c) {
 		fprintf(stderr, "  void -> 0:_%u_%d:w [style=dotted color=lightgray fontcolor=lightgray label=\"",
@@ -145,7 +160,8 @@ void dump_dfa_t::state0(const closure_t &clos)
 	}
 }
 
-void dump_dfa_t::state(const closure_t &clos, size_t state, size_t symbol, bool isnew)
+void dump_dfa_t::state(const closure_t &clos, size_t state, size_t symbol, bool isnew,
+	const bmatrix_t *bmatrix)
 {
 	if (!debug) return;
 
@@ -162,7 +178,7 @@ void dump_dfa_t::state(const closure_t &clos, size_t state, size_t symbol, bool 
 		z = isnew ? y : ++uniqidx;
 	const char *prefix = isnew ? "" : "i";
 
-	closure(clos, z, isnew);
+	closure(clos, z, isnew, bmatrix);
 	if (!isnew) {
 		fprintf(stderr, "  i%u [style=dotted]\n"
 			"  i%u:s -> %u:s [style=dotted label=\"", z, z, y);
@@ -213,8 +229,8 @@ void dump_dfa(const dfa_t &dfa)
 	fprintf(stderr,
 		"digraph DFA {\n"
 		"  rankdir=LR\n"
-		"  node[shape=Mrecord fontname=fixed]\n"
-		"  edge[arrowhead=vee fontname=fixed]\n\n");
+		"  node[shape=Mrecord fontname=Courier]\n"
+		"  edge[arrowhead=vee fontname=Courier]\n\n");
 
 	// initializer
 	fprintf(stderr,
@@ -317,7 +333,7 @@ void dump_tags(const Tagpool &tagpool, hidx_t ttran, size_t tvers)
 			if (h.tag(t) != i) continue;
 			if (h.elem(t) < TAGVER_ZERO) {
 				fprintf(stderr, "&darr;");
-			} else if (t > TAGVER_ZERO) {
+			} else if (h.elem(t) > TAGVER_ZERO) {
 				fprintf(stderr, "&uarr;");
 			}
 		}

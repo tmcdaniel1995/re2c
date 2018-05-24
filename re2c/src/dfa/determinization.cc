@@ -53,8 +53,7 @@ void reach(const kernel_t *kernel, closure_t &clos, uint32_t symbol)
 		nfa_state_t *s1 = kernel->state[i],
 			*s2 = transition(s1, symbol);
 		if (s2) {
-			clos_t c = {s1, s2, kernel->order[i], kernel->tvers[i],
-				kernel->tlook[i], HROOT};
+			clos_t c = {s1, s2, i, kernel->tvers[i], kernel->tlook[i], HROOT};
 			clos.push_back(c);
 		}
 	}
@@ -82,6 +81,7 @@ dfa_t::dfa_t(const nfa_t &nfa, const opt_t *opts,
 	newvers_t newvers(newvers_cmp);
 	tcmd_t *acts;
 	dump_dfa_t dump(*this, tagpool, nfa);
+	bmatrix_t *bmatrix = NULL;
 
 	// all-zero tag configuration must have static number zero
 	assert(ZERO_TAGS == tagpool.insert_const(TAGVER_ZERO));
@@ -111,15 +111,16 @@ dfa_t::dfa_t(const nfa_t &nfa, const opt_t *opts,
 
 	clos_t c0 = {NULL, nfa.root, ZERO_TAGS, INITIAL_TAGS, HROOT, HROOT};
 	clos1.push_back(c0);
-	acts = closure(*this, clos1, clos2, tagpool, newvers, dump.shadow);
-	find_state(*this, dfa_t::NIL, 0/* any */, kernels, clos2, acts, dump);
+	acts = closure(*this, clos1, clos2, tagpool, newvers, dump.shadow, NULL, bmatrix, 0);
+	find_state(*this, dfa_t::NIL, 0/* any */, kernels, clos2, acts, dump, bmatrix);
 
 	for (size_t i = 0; i < kernels.size(); ++i) {
 		newvers.clear();
 		for (size_t c = 0; c < nchars; ++c) {
-			reach(kernels[i], clos1, charset[c]);
-			acts = closure(*this, clos1, clos2, tagpool, newvers, dump.shadow);
-			find_state(*this, i, c, kernels, clos2, acts, dump);
+			const kernel_t *kernel = kernels[i];
+			reach(kernel, clos1, charset[c]);
+			acts = closure(*this, clos1, clos2, tagpool, newvers, dump.shadow, kernel->bmatrix, bmatrix, kernel->size);
+			find_state(*this, i, c, kernels, clos2, acts, dump, bmatrix);
 		}
 	}
 

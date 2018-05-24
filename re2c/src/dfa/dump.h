@@ -28,10 +28,10 @@ struct dump_dfa_t
 
 	dump_dfa_t(const dfa_t &d, const Tagpool &pool, const nfa_t &n);
 	~dump_dfa_t();
-	void closure_tags(cclositer_t c);
-	void closure(const closure_t &clos, uint32_t state, bool isnew);
-	void state0(const closure_t &clos);
-	void state(const closure_t &clos, size_t state, size_t symbol, bool isnew);
+	void closure_tags(cclositer_t c, bool shadowed);
+	void closure(const closure_t &clos, uint32_t state, bool isnew, const bmatrix_t *bmatrix);
+	void state0(const closure_t &clos, const bmatrix_t *bmatrix);
+	void state(const closure_t &clos, size_t state, size_t symbol, bool isnew, const bmatrix_t *bmatrix);
 	void final(size_t state, const nfa_state_t *port);
 	uint32_t index(const nfa_state_t *s) const;
 	FORBID_COPY(dump_dfa_t);

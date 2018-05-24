@@ -28,22 +28,25 @@ struct Tag
 	size_t dist;
 	bool history;
 	bool orbit;
+	int height;
 
-	Tag(const std::string *n, bool h)
+	Tag(const std::string *n, bool h, int he)
 		: name(n)
 		, ncap(Tag::RIGHTMOST)
 		, base(Tag::RIGHTMOST)
 		, dist(Tag::VARDIST)
 		, history(h)
 		, orbit(false)
+		, height(he)
 	{}
-	Tag(size_t c, bool o)
+	Tag(size_t c, bool o, int he)
 		: name(NULL)
 		, ncap(c)
 		, base(Tag::RIGHTMOST)
 		, dist(Tag::VARDIST)
 		, history(false)
 		, orbit(o)
+		, height(he)
 	{}
 };
 

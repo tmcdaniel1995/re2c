@@ -21,7 +21,7 @@ struct clos_t
 {
 	nfa_state_t *origin; // for debug only
 	nfa_state_t *state;
-	size_t order; // vector of orders
+	size_t index;
 	size_t tvers; // vector of tag versions (including lookahead tags)
 	hidx_t ttran; // history of transition tags
 	hidx_t tlook; // history of lookahead tags
@@ -35,6 +35,8 @@ typedef closure_t::iterator clositer_t;
 typedef closure_t::const_iterator cclositer_t;
 typedef closure_t::reverse_iterator rclositer_t;
 typedef closure_t::const_reverse_iterator rcclositer_t;
+
+typedef int bmatrix_t;
 
 struct newver_t
 {
@@ -54,14 +56,15 @@ struct newver_cmp_t
 		if (x.base < y.base) return true;
 		if (x.base > y.base) return false;
 
-		return history.compare_plain(x.history, y.history, x.tag) < 0;
+		return history.compare_reversed(x.history, y.history, x.tag) < 0;
 	}
 };
 
 typedef std::map<newver_t, tagver_t, newver_cmp_t> newvers_t;
 
 tcmd_t *closure(dfa_t &dfa, closure_t &clos1, closure_t &clos2,
-	Tagpool &tagpool, newvers_t &newvers, closure_t *shadow);
+	Tagpool &tagpool, newvers_t &newvers, closure_t *shadow,
+	const bmatrix_t *bmatrix, bmatrix_t *&bmatrix1, size_t noldclos);
 
 } // namespace re2c
 

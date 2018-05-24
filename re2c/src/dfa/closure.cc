@@ -19,24 +19,25 @@
 namespace re2c
 {
 
-static void closure_posix(const closure_t &init, closure_t &done, closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags);
+static void closure_posix(const closure_t &init, closure_t &done, closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags, const bmatrix_t *bmatrix, size_t noldclos);
 static void closure_leftmost(const closure_t &init, closure_t &done, closure_t *shadow, Tagpool &tagpool);
-static int32_t compare_posix(const clos_t &c1, const clos_t &c2, Tagpool &tagpool, const std::vector<Tag> &tags);
 static void prune(closure_t &clos, std::valarray<Rule> &rules);
 static void lower_lookahead_to_transition(closure_t &clos);
 static tcmd_t *generate_versions(dfa_t &dfa, closure_t &clos, Tagpool &tagpool, newvers_t &newvers);
-static void orders(closure_t &clos, Tagpool &tagpool, const std::vector<Tag> &tags);
+static void orders(closure_t &clos, Tagpool &tagpool, const std::vector<Tag> &tags,
+	const bmatrix_t *bmatrix, bmatrix_t *&bmatrix1, size_t noldclos);
 static bool cmpby_rule_state(const clos_t &x, const clos_t &y);
 
 tcmd_t *closure(dfa_t &dfa, closure_t &clos1, closure_t &clos2,
-	Tagpool &tagpool, newvers_t &newvers, closure_t *shadow)
+	Tagpool &tagpool, newvers_t &newvers, closure_t *shadow,
+	const bmatrix_t *bmatrix, bmatrix_t *&bmatrix1, size_t noldclos)
 {
 	// build tagged epsilon-closure of the given set of NFA states
 	if (tagpool.opts->posix_captures) {
-		closure_posix(clos1, clos2, shadow, tagpool, dfa.tags);
+		closure_posix(clos1, clos2, shadow, tagpool, dfa.tags, bmatrix, noldclos);
 		prune(clos2, dfa.rules);
-		orders(clos2, tagpool, dfa.tags);
 		std::sort(clos2.begin(), clos2.end(), cmpby_rule_state);
+		orders(clos2, tagpool, dfa.tags, bmatrix, bmatrix1, noldclos);
 	} else {
 		closure_leftmost(clos1, clos2, shadow, tagpool);
 		prune(clos2, dfa.rules);
@@ -67,18 +68,6 @@ bool cmpby_rule_state(const clos_t &x, const clos_t &y)
 	return false;
 }
 
-// Skip non-orbit start tags: their position is fixed on some higher-priority
-// tag (except the very first tag, but in RE2C match is always anchored).
-// We cannot skip orbit start tag because the corresponding orbit end tag is
-// hoisted out of loop (by construction) and is, in fact, non-orbit; but we can
-// skip orbit end tag instead.
-// Skipping non-orbit start tags allows us to compare all subhistories in the
-// same way (incrementally). Subhistories of non-orbit start tags cannot be
-// compared incrementally, because default value may be added on a later step
-// than non-default value.
-static bool redundant(size_t t, const std::vector<Tag> &tags) {
-	return (t % 2 == 0) != orbit(tags[t]);
-}
 
 /* note [epsilon-closures in tagged NFA]
  *
@@ -98,7 +87,8 @@ static bool redundant(size_t t, const std::vector<Tag> &tags) {
  */
 
 static void enqueue(clos_t x, std::stack<nfa_state_t*> &bstack, closure_t &done,
-	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags)
+	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags,
+	const bmatrix_t *bmatrix, size_t noldclos)
 {
 	nfa_state_t *n = x.state;
 	uint32_t &i = n->clos;
@@ -107,10 +97,12 @@ static void enqueue(clos_t x, std::stack<nfa_state_t*> &bstack, closure_t &done,
 		i = static_cast<uint32_t>(done.size());
 		done.push_back(x);
 	} else {
-		const int32_t cmp = compare_posix(x, done[i], tagpool, tags);
-		if (cmp < 0) std::swap(x, done[i]);
-		if (shadow && cmp != 0) shadow->push_back(x);
-		if (cmp >= 0) return;
+		clos_t &y = done[i];
+		int h1, h2, l;
+		l = tagpool.history.precedence (x, y, h1, h2, bmatrix, tags, noldclos);
+		if (l < 0) std::swap(x, y);
+		if (shadow && l != 0) shadow->push_back(x);
+		if (l >= 0) return;
 	}
 
 	if (n->status != GOR_TOPSORT) {
@@ -120,26 +112,27 @@ static void enqueue(clos_t x, std::stack<nfa_state_t*> &bstack, closure_t &done,
 }
 
 static void scan(nfa_state_t *n, std::stack<nfa_state_t*> &bstack, closure_t &done,
-	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags)
+	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags,
+	const bmatrix_t *bmatrix, size_t noldclos)
 {
 	tagtree_t &history = tagpool.history;
 	clos_t x = done[n->clos];
 	switch (n->type) {
 		case nfa_state_t::NIL:
 			x.state = n->nil.out;
-			enqueue(x, bstack, done, shadow, tagpool, tags);
+			enqueue(x, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			break;
 		case nfa_state_t::ALT:
 			x.state = n->alt.out2;
-			enqueue(x, bstack, done, shadow, tagpool, tags);
+			enqueue(x, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			x.state = n->alt.out1;
-			enqueue(x, bstack, done, shadow, tagpool, tags);
+			enqueue(x, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			break;
 		case nfa_state_t::TAG:
 			x.state = n->tag.out;
 			x.tlook = history.push(x.tlook, n->tag.info,
 				n->tag.bottom ? TAGVER_BOTTOM : TAGVER_CURSOR);
-			enqueue(x, bstack, done, shadow, tagpool, tags);
+			enqueue(x, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			break;
 		case nfa_state_t::RAN:
 		case nfa_state_t::FIN:
@@ -148,7 +141,8 @@ static void scan(nfa_state_t *n, std::stack<nfa_state_t*> &bstack, closure_t &do
 }
 
 void closure_posix(const closure_t &init, closure_t &done,
-	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags)
+	closure_t *shadow, Tagpool &tagpool, const std::vector<Tag> &tags,
+	const bmatrix_t *bmatrix, size_t noldclos)
 {
 	std::stack<nfa_state_t*>
 		&astack = tagpool.astack,
@@ -158,7 +152,7 @@ void closure_posix(const closure_t &init, closure_t &done,
 	done.clear();
 	if (shadow) shadow->clear();
 	for (cclositer_t c = init.begin(); c != init.end(); ++c) {
-		enqueue(*c, bstack, done, shadow, tagpool, tags);
+		enqueue(*c, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 	}
 
 	// Gordberg-Radzik 'shortest path' algorithm.
@@ -176,7 +170,7 @@ void closure_posix(const closure_t &init, closure_t &done,
 			nfa_state_t *n = bstack.top();
 			if (n->status == GOR_NEWPASS) {
 				n->status = GOR_TOPSORT;
-				scan(n, bstack, done, shadow, tagpool, tags);
+				scan(n, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			} else if (n->status == GOR_TOPSORT) {
 				bstack.pop();
 				astack.push(n);
@@ -190,7 +184,7 @@ void closure_posix(const closure_t &init, closure_t &done,
 		for (; !astack.empty(); ) {
 			nfa_state_t *n = astack.top();
 			astack.pop();
-			scan(n, bstack, done, shadow, tagpool, tags);
+			scan(n, bstack, done, shadow, tagpool, tags, bmatrix, noldclos);
 			n->status = GOR_OFFSTACK;
 		}
 	}
@@ -220,25 +214,6 @@ void closure_posix(const closure_t &init, closure_t &done,
  * Note that the first final item reached by the epsilon-closure it the one
  * with the highest priority (see note [closure items are sorted by rule]).
  */
-
-int32_t compare_posix(const clos_t &c1, const clos_t &c2,
-	Tagpool &tagpool, const std::vector<Tag> &tags)
-{
-	if (tagpool.ntags == 0
-		|| (c1.order == c2.order && c1.tlook == c2.tlook)) return 0;
-
-	tagtree_t &h = tagpool.history;
-	for (size_t t = 0; t < tagpool.ntags; ++t) {
-		if (redundant(t, tags)) continue;
-		const hidx_t i1 = c1.tlook, i2 = c2.tlook;
-		const tagver_t
-			o1 = tagpool[c1.order][t],
-			o2 = tagpool[c2.order][t];
-		const int32_t cmp = h.compare_histories(i1, i2, o1, o2, t);
-		if (cmp != 0) return cmp;
-	}
-	return 0;
-}
 
 void closure_leftmost(const closure_t &init, closure_t &done,
 	closure_t *shadow, Tagpool &tagpool)
@@ -428,94 +403,27 @@ tcmd_t *generate_versions(dfa_t &dfa, closure_t &clos, Tagpool &tagpool, newvers
 	return cmd;
 }
 
-/* note [POSIX orbit tags]
- *
- * POSIX disambiguation rules demand that earlier subexpressions match
- * the longest possible prefix of the input string (without violating the
- * whole match). To accommodate these rules, we resolve conflicts on orbit
- * tags by comparison of tag subhistories on conflicting NFA paths.
- *
- * If one subhistory is a proper prefix of another subhistory, it is less;
- * otherwise for the first pair of different offsets, if one offset is greater
- * than the other, then the corresponding subhistory is less.
- *
- * It is possible to pre-compare two NFA paths corresponding to the same
- * input string prefix and ending in the same NFA state; if paths are not
- * equal, the result of this comparison will hold for any common suffix.
- *
- * It is also possible to pre-compare NFA paths that correspond to the same
- * input prefix, but end in different NFA states. Such comparison is incorrect
- * unless subhistories start at the same offset; but if it is incorrect, we
- * will never use its result (tags with higher priority will also disagree).
- *
- * Therefore instead of keeping the whole history of offsets we calculate
- * the relative order of any pair of subhistories on each step.
- *
- * This part of the algorithm was invented by Christopher Kuklewicz.
- */
-
-struct cmp_posix_t
+static inline int32_t pack(int32_t longest, int32_t leftmost)
 {
-	Tagpool &tagpool;
-	size_t tag;
-	bool operator()(cclositer_t x, cclositer_t y)
-	{
-		const hidx_t i1 = x->tlook, i2 = y->tlook;
-		const tagver_t
-			o1 = tagpool[x->order][tag],
-			o2 = tagpool[y->order][tag];
-		// comparison result is inverted, because orders are used as offsets
-		return tagpool.history.compare_last_subhistories(i1, i2, o1, o2, tag) > 0;
-	}
-};
+	// leftmost: higher 2 bits, longest: lower 30 bits
+	return longest | (leftmost << 30);
+}
 
-void orders(closure_t &clos, Tagpool &tagpool, const std::vector<Tag> &tags)
+void orders(closure_t &clos, Tagpool &tagpool, const std::vector<Tag> &tags,
+	const bmatrix_t *bmatrix, bmatrix_t *&bmatrix1, size_t noldclos)
 {
-	clositer_t b = clos.begin(), e = clos.end(), c;
-	const size_t
-		ntag = tagpool.ntags,
-		nclos = clos.size();
-	size_t &maxclos = tagpool.maxclos;
-	tagver_t *&os = tagpool.orders, *o, *os0;
-	cclositer_t *&ps = tagpool.closes, *pe, *p;
+	const size_t nclos = clos.size();
+	bmatrix1 = tagpool.alc.alloct<bmatrix_t>(nclos * nclos);
 
-	if (ntag == 0) return;
-
-	// reallocate buffers if necessary
-	if (maxclos < nclos) {
-		maxclos = nclos * 2; // in advance
-		delete[] os;
-		delete[] ps;
-		os = new tagver_t[(ntag + 1) * maxclos];
-		ps = new cclositer_t[maxclos];
-	}
-
-	os0 = os + ntag * maxclos;
-	pe = ps;
-	for (c = b; c != e; ++c) *pe++ = c;
-
-	memset(os, 0, ntag * nclos * sizeof(tagver_t)); //some tags are skipped
-	for (size_t t = 0; t < ntag; ++t) {
-		if (redundant(t, tags)) continue;
-
-		cmp_posix_t cmp = {tagpool, t};
-		std::sort(ps, pe, cmp);
-		tagver_t m = 0;
-		o = os0;
-		for (p = ps; p < pe; ++m) {
-			*o++ = m;
-			for (; ++p < pe && !cmp(p[-1], p[0]);) *o++ = m;
+	for (size_t i = 0; i < nclos; ++i) {
+		for (size_t j = i + 1; j < nclos; ++j) {
+			int rho1, rho2, l;
+			l = tagpool.history.precedence (clos[i], clos[j], rho1, rho2, bmatrix, tags, noldclos);
+			bmatrix1[i * nclos + j] = pack(rho1, l);
+			bmatrix1[j * nclos + i] = pack(rho2, -l);
 		}
-
-		o = os;
-		for (c = b; c != e; ++c, o += ntag) {
-			o[t] = os0[std::find(ps, pe, c) - ps];
-		}
-	}
-
-	o = os;
-	for (c = b; c != e; ++c, o += ntag) {
-		c->order = tagpool.insert(o);
+		bmatrix1[i * nclos + i] = 0;
+		clos[i].index = i;
 	}
 }
 
