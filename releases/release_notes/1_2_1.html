@@ -1,0 +1,68 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Release 1.2.1 &#8212; re2c 1.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/theme-re2c.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="alternate" type="application/atom+xml" href="../../feed/atom.xml" title="Atom 1.0" />
+    
+ 
+  </head><body>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="re2c-logo">
+    re2c
+</div>
+
+<h3><a href="../../index.html">Home</a></h3>
+<div class="re2c-toc-global">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../manual/manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install/install.html">Build instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="release-1-2-1">
+<h1>Release 1.2.1<a class="headerlink" href="#release-1-2-1" title="Permalink to this headline">¶</a></h1>
+<p>This is a minor release that improves some of the features introduced in 1.2.
+First, it is now possible to reset <code class="docutils literal notranslate"><span class="pre">re2c:eof</span></code> configuration to the
+default value by setting it to <code class="docutils literal notranslate"><span class="pre">-1</span></code>. Second, re2c now installs standard
+include files to <code class="docutils literal notranslate"><span class="pre">$(datadir)/re2c/stdlib</span></code>, where <code class="docutils literal notranslate"><span class="pre">$(datadir)</span></code> is
+<code class="docutils literal notranslate"><span class="pre">/usr/share</span></code> by default (but can be configured otherwise). When looking for
+include files, re2c automatically tries this directory — there is no need
+to add it manually with <code class="docutils literal notranslate"><span class="pre">-I</span></code>.
+Both issues have been reported by Wesley W. Terpstra. Thank you!</p>
+<p>See the changelog <a class="reference internal" href="../changelog/changelog.html#id4"><span class="std std-ref">1.2.1 (2019-08-11)</span></a> for details.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+      Last updated on Dec 25, 2019.
+    </div>
+  </body>
+</html>

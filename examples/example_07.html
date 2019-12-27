@@ -1,0 +1,875 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>C++98 lexer &#8212; re2c 1.2 documentation</title>
+    <link rel="stylesheet" href="../_static/theme-re2c.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="alternate" type="application/atom+xml" href="../feed/atom.xml" title="Atom 1.0" />
+    
+ 
+  </head><body>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="re2c-logo">
+    re2c
+</div>
+
+<h3><a href="../index.html">Home</a></h3>
+<div class="re2c-toc-global">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../manual/manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">Build instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/release_notes.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/changelog/changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="c-98-lexer">
+<h1>C++98 lexer<a class="headerlink" href="#c-98-lexer" title="Permalink to this headline">¶</a></h1>
+<p>This is an example of a big, real-world re2c program: a C++98 lexer.
+It conforms to the C++98 standard (except for a couple of hacks that simulate the preprocessor).
+All nontrivial lexemes (integers, floating-point constants, strings, and character literals)
+are parsed (not only recognized): numeric literals are converted to numbers, and strings are unescaped.
+Some additional checks described in the standard (e.g., overflows in integer literals) are also done.
+In fact, C++ is an easy language to lex: unlike in many other languages, the C++98 lexer can proceed without feedback from the parser.</p>
+<p><a class="reference download internal" href="../_downloads/07_cxx98.i.re" download=""><code class="xref download docutils literal notranslate"><span class="pre">[cxx98.re]</span></code></a></p>
+<div class="highlight-cpp notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;float.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;limits.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*!max:re2c*/</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">SIZE</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">input_t</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">SIZE</span> <span class="o">+</span> <span class="n">YYMAXFILL</span><span class="p">];</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">lim</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cur</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">mar</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">tok</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">eof</span><span class="p">;</span>
+
+    <span class="kt">FILE</span> <span class="o">*</span><span class="k">const</span> <span class="n">file</span><span class="p">;</span>
+
+    <span class="n">input_t</span><span class="p">(</span><span class="kt">FILE</span> <span class="o">*</span><span class="n">f</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">buf</span><span class="p">()</span>
+        <span class="p">,</span> <span class="n">lim</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">cur</span><span class="p">(</span><span class="n">lim</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">mar</span><span class="p">(</span><span class="n">lim</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">tok</span><span class="p">(</span><span class="n">lim</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">eof</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="p">{}</span>
+    <span class="kt">bool</span> <span class="n">fill</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">need</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">eof</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">free</span> <span class="o">=</span> <span class="n">tok</span> <span class="o">-</span> <span class="n">buf</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">free</span> <span class="o">&lt;</span> <span class="n">need</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">memmove</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">tok</span><span class="p">,</span> <span class="n">lim</span> <span class="o">-</span> <span class="n">tok</span><span class="p">);</span>
+        <span class="n">lim</span> <span class="o">-=</span> <span class="n">free</span><span class="p">;</span>
+        <span class="n">cur</span> <span class="o">-=</span> <span class="n">free</span><span class="p">;</span>
+        <span class="n">mar</span> <span class="o">-=</span> <span class="n">free</span><span class="p">;</span>
+        <span class="n">tok</span> <span class="o">-=</span> <span class="n">free</span><span class="p">;</span>
+        <span class="n">lim</span> <span class="o">+=</span> <span class="n">fread</span><span class="p">(</span><span class="n">lim</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lim</span> <span class="o">&lt;</span> <span class="n">buf</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">eof</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="n">memset</span><span class="p">(</span><span class="n">lim</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">YYMAXFILL</span><span class="p">);</span>
+            <span class="n">lim</span> <span class="o">+=</span> <span class="n">YYMAXFILL</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/*!re2c re2c:define:YYCTYPE = &quot;unsigned char&quot;; */</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">base</span><span class="o">&gt;</span>
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">adddgt</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">&amp;</span><span class="n">u</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">d</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">ULONG_MAX</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">base</span> <span class="o">+</span> <span class="n">d</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex_oct</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">e</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">&amp;</span><span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">++</span><span class="n">s</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">;</span> <span class="o">++</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">adddgt</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span> <span class="o">-</span> <span class="mh">0x30u</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex_dec</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">e</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">&amp;</span><span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">;</span> <span class="o">++</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">adddgt</span><span class="o">&lt;</span><span class="mi">10</span><span class="o">&gt;</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span> <span class="o">-</span> <span class="mh">0x30u</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex_hex</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">e</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">&amp;</span><span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">s</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">;)</span> <span class="p">{</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        re2c:yyfill:enable = 0;</span>
+<span class="cm">        re2c:define:YYCURSOR = s;</span>
+<span class="cm">        *     { if (!adddgt&lt;16&gt;(u, s[-1] - 0x30u))      return false; continue; }</span>
+<span class="cm">        [a-f] { if (!adddgt&lt;16&gt;(u, s[-1] - 0x61u + 10)) return false; continue; }</span>
+<span class="cm">        [A-F] { if (!adddgt&lt;16&gt;(u, s[-1] - 0x41u + 10)) return false; continue; }</span>
+<span class="cm">    */</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex_str</span><span class="p">(</span><span class="n">input_t</span> <span class="o">&amp;</span><span class="n">in</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">u</span> <span class="o">=</span> <span class="n">q</span><span class="p">;;</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">x%lx&quot;</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">in</span><span class="p">.</span><span class="n">tok</span> <span class="o">=</span> <span class="n">in</span><span class="p">.</span><span class="n">cur</span><span class="p">;</span>
+        <span class="cm">/*!re2c</span>
+<span class="cm">            re2c:define:YYCURSOR = in.cur;</span>
+<span class="cm">            re2c:define:YYMARKER = in.mar;</span>
+<span class="cm">            re2c:define:YYLIMIT = in.lim;</span>
+<span class="cm">            re2c:yyfill:enable = 1;</span>
+<span class="cm">            re2c:define:YYFILL = &quot;if (!in.fill(@@)) return false;&quot;;</span>
+<span class="cm">            re2c:define:YYFILL:naked = 1;</span>
+<span class="cm">            *                    { return false; }</span>
+<span class="cm">            [^\n\\]              { u = in.tok[0]; if (u == q) break; continue; }</span>
+<span class="cm">            &quot;\\a&quot;                { u = &#39;\a&#39;; continue; }</span>
+<span class="cm">            &quot;\\b&quot;                { u = &#39;\b&#39;; continue; }</span>
+<span class="cm">            &quot;\\f&quot;                { u = &#39;\f&#39;; continue; }</span>
+<span class="cm">            &quot;\\n&quot;                { u = &#39;\n&#39;; continue; }</span>
+<span class="cm">            &quot;\\r&quot;                { u = &#39;\r&#39;; continue; }</span>
+<span class="cm">            &quot;\\t&quot;                { u = &#39;\t&#39;; continue; }</span>
+<span class="cm">            &quot;\\v&quot;                { u = &#39;\v&#39;; continue; }</span>
+<span class="cm">            &quot;\\\\&quot;               { u = &#39;\\&#39;; continue; }</span>
+<span class="cm">            &quot;\\&#39;&quot;                { u = &#39;\&#39;&#39;; continue; }</span>
+<span class="cm">            &quot;\\\&quot;&quot;               { u = &#39;&quot;&#39;;  continue; }</span>
+<span class="cm">            &quot;\\?&quot;                { u = &#39;?&#39;;  continue; }</span>
+<span class="cm">            &quot;\\&quot; [0-7]{1,3}      { lex_oct(in.tok, in.cur, u); continue; }</span>
+<span class="cm">            &quot;\\u&quot; [0-9a-fA-F]{4} { lex_hex(in.tok, in.cur, u); continue; }</span>
+<span class="cm">            &quot;\\U&quot; [0-9a-fA-F]{8} { lex_hex(in.tok, in.cur, u); continue; }</span>
+<span class="cm">            &quot;\\x&quot; [0-9a-fA-F]+   { if (!lex_hex(in.tok, in.cur, u)) return false; continue; }</span>
+<span class="cm">        */</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex_flt</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        re2c:yyfill:enable = 0;</span>
+<span class="cm">        re2c:define:YYCURSOR = s;</span>
+<span class="cm">    */</span>
+<span class="nl">mant_int</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        &quot;.&quot;   { goto mant_frac; }</span>
+<span class="cm">        [eE]  { goto exp_sign; }</span>
+<span class="cm">        *     { d = (d * 10) + (s[-1] - &#39;0&#39;); goto mant_int; }</span>
+<span class="cm">    */</span>
+<span class="nl">mant_frac</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        &quot;&quot;    { goto sfx; }</span>
+<span class="cm">        [eE]  { goto exp_sign; }</span>
+<span class="cm">        [0-9] { d += (x /= 10) * (s[-1] - &#39;0&#39;); goto mant_frac; }</span>
+<span class="cm">    */</span>
+<span class="nl">exp_sign</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        &quot;+&quot;?  { x = 1e+1; goto exp; }</span>
+<span class="cm">        &quot;-&quot;   { x = 1e-1; goto exp; }</span>
+<span class="cm">    */</span>
+<span class="nl">exp</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        &quot;&quot;    { for (; e &gt; 0; --e) d *= x;    goto sfx; }</span>
+<span class="cm">        [0-9] { e = (e * 10) + (s[-1] - &#39;0&#39;); goto exp; }</span>
+<span class="cm">    */</span>
+<span class="nl">sfx</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        *     { goto end; }</span>
+<span class="cm">        [fF]  { if (d &gt; FLT_MAX) return false; goto end; }</span>
+<span class="cm">    */</span>
+<span class="nl">end</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%g&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">lex</span><span class="p">(</span><span class="n">input_t</span> <span class="o">&amp;</span><span class="n">in</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">u</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
+        <span class="n">in</span><span class="p">.</span><span class="n">tok</span> <span class="o">=</span> <span class="n">in</span><span class="p">.</span><span class="n">cur</span><span class="p">;</span>
+        <span class="cm">/*!re2c</span>
+<span class="cm">            re2c:define:YYCURSOR = in.cur;</span>
+<span class="cm">            re2c:define:YYMARKER = in.mar;</span>
+<span class="cm">            re2c:define:YYLIMIT = in.lim;</span>
+<span class="cm">            re2c:yyfill:enable = 1;</span>
+<span class="cm">            re2c:define:YYFILL = &quot;if (!in.fill(@@)) return false;&quot;;</span>
+<span class="cm">            re2c:define:YYFILL:naked = 1;</span>
+
+<span class="cm">            end = &quot;\x00&quot;;</span>
+
+<span class="cm">            *   { return false; }</span>
+<span class="cm">            end { return in.lim - in.tok == YYMAXFILL; }</span>
+
+<span class="cm">            // macros</span>
+<span class="cm">            macro = (&quot;#&quot; | &quot;%:&quot;) ([^\n] | &quot;\\\n&quot;)* &quot;\n&quot;;</span>
+<span class="cm">            macro { continue; }</span>
+
+<span class="cm">            // whitespaces</span>
+<span class="cm">            mcm = &quot;/*&quot; ([^*] | (&quot;*&quot; [^/]))* &quot;*&quot;&quot;/&quot;;</span>
+<span class="cm">            scm = &quot;//&quot; [^\n]* &quot;\n&quot;;</span>
+<span class="cm">            wsp = ([ \t\v\n\r] | scm | mcm)+;</span>
+<span class="cm">            wsp { printf(&quot; &quot;); continue; }</span>
+
+<span class="cm">            // character and string literals</span>
+<span class="cm">            &quot;L&quot;? [&#39;&quot;] { if (!lex_str(in, in.cur[-1])) return false; continue; }</span>
+<span class="cm">            &quot;L&quot;? &quot;&#39;&#39;&quot; { return false; }</span>
+
+<span class="cm">            // integer literals</span>
+<span class="cm">            oct = &quot;0&quot; [0-7]*;</span>
+<span class="cm">            dec = [1-9][0-9]*;</span>
+<span class="cm">            hex = &#39;0x&#39; [0-9a-fA-F]+;</span>
+<span class="cm">            oct { if (!lex_oct(in.tok, in.cur, u)) return false; goto sfx; }</span>
+<span class="cm">            dec { if (!lex_dec(in.tok, in.cur, u)) return false; goto sfx; }</span>
+<span class="cm">            hex { if (!lex_hex(in.tok, in.cur, u)) return false; goto sfx; }</span>
+
+<span class="cm">            // floating literals</span>
+<span class="cm">            frc = [0-9]* &quot;.&quot; [0-9]+ | [0-9]+ &quot;.&quot;;</span>
+<span class="cm">            exp = &#39;e&#39; [+-]? [0-9]+;</span>
+<span class="cm">            flt = (frc exp? | [0-9]+ exp) [fFlL]?;</span>
+<span class="cm">            flt { if (lex_flt(in.tok)) continue; return false; }</span>
+
+<span class="cm">            // boolean literals</span>
+<span class="cm">            &quot;false&quot; { printf(&quot;false&quot;); continue; }</span>
+<span class="cm">            &quot;true&quot;  { printf(&quot;true&quot;);  continue; }</span>
+
+<span class="cm">            // keywords</span>
+<span class="cm">            &quot;asm&quot;              { printf(&quot;ASM&quot;);              continue; }</span>
+<span class="cm">            &quot;auto&quot;             { printf(&quot;AUTO&quot;);             continue; }</span>
+<span class="cm">            &quot;bool&quot;             { printf(&quot;BOOL&quot;);             continue; }</span>
+<span class="cm">            &quot;break&quot;            { printf(&quot;BREAK&quot;);            continue; }</span>
+<span class="cm">            &quot;case&quot;             { printf(&quot;CASE&quot;);             continue; }</span>
+<span class="cm">            &quot;catch&quot;            { printf(&quot;CATCH&quot;);            continue; }</span>
+<span class="cm">            &quot;char&quot;             { printf(&quot;CHAR&quot;);             continue; }</span>
+<span class="cm">            &quot;class&quot;            { printf(&quot;CLASS&quot;);            continue; }</span>
+<span class="cm">            &quot;const&quot;            { printf(&quot;CONST&quot;);            continue; }</span>
+<span class="cm">            &quot;const_cast&quot;       { printf(&quot;CONST_CAST&quot;);       continue; }</span>
+<span class="cm">            &quot;continue&quot;         { printf(&quot;CONTINUE&quot;);         continue; }</span>
+<span class="cm">            &quot;default&quot;          { printf(&quot;DEFAULT&quot;);          continue; }</span>
+<span class="cm">            &quot;do&quot;               { printf(&quot;DO&quot;);               continue; }</span>
+<span class="cm">            &quot;double&quot;           { printf(&quot;DOUBLE&quot;);           continue; }</span>
+<span class="cm">            &quot;dynamic_cast&quot;     { printf(&quot;DYNAMIC_CAST&quot;);     continue; }</span>
+<span class="cm">            &quot;else&quot;             { printf(&quot;ELSE&quot;);             continue; }</span>
+<span class="cm">            &quot;enum&quot;             { printf(&quot;ENUM&quot;);             continue; }</span>
+<span class="cm">            &quot;explicit&quot;         { printf(&quot;EXPLICIT&quot;);         continue; }</span>
+<span class="cm">            &quot;export&quot;           { printf(&quot;EXPORT&quot;);           continue; }</span>
+<span class="cm">            &quot;extern&quot;           { printf(&quot;EXTERN&quot;);           continue; }</span>
+<span class="cm">            &quot;float&quot;            { printf(&quot;FLOAT&quot;);            continue; }</span>
+<span class="cm">            &quot;for&quot;              { printf(&quot;FOR&quot;);              continue; }</span>
+<span class="cm">            &quot;friend&quot;           { printf(&quot;FRIEND&quot;);           continue; }</span>
+<span class="cm">            &quot;goto&quot;             { printf(&quot;GOTO&quot;);             continue; }</span>
+<span class="cm">            &quot;if&quot;               { printf(&quot;IF&quot;);               continue; }</span>
+<span class="cm">            &quot;inline&quot;           { printf(&quot;INLINE&quot;);           continue; }</span>
+<span class="cm">            &quot;int&quot;              { printf(&quot;INT&quot;);              continue; }</span>
+<span class="cm">            &quot;long&quot;             { printf(&quot;LONG&quot;);             continue; }</span>
+<span class="cm">            &quot;mutable&quot;          { printf(&quot;MUTABLE&quot;);          continue; }</span>
+<span class="cm">            &quot;namespace&quot;        { printf(&quot;NAMESPACE&quot;);        continue; }</span>
+<span class="cm">            &quot;operator&quot;         { printf(&quot;OPERATOR&quot;);         continue; }</span>
+<span class="cm">            &quot;private&quot;          { printf(&quot;PRIVATE&quot;);          continue; }</span>
+<span class="cm">            &quot;protected&quot;        { printf(&quot;PROTECTED&quot;);        continue; }</span>
+<span class="cm">            &quot;public&quot;           { printf(&quot;PUBLIC&quot;);           continue; }</span>
+<span class="cm">            &quot;register&quot;         { printf(&quot;REGISTER&quot;);         continue; }</span>
+<span class="cm">            &quot;reinterpret_cast&quot; { printf(&quot;REINTERPRET_CAST&quot;); continue; }</span>
+<span class="cm">            &quot;return&quot;           { printf(&quot;RETURN&quot;);           continue; }</span>
+<span class="cm">            &quot;short&quot;            { printf(&quot;SHORT&quot;);            continue; }</span>
+<span class="cm">            &quot;signed&quot;           { printf(&quot;SIGNED&quot;);           continue; }</span>
+<span class="cm">            &quot;sizeof&quot;           { printf(&quot;SIZEOF&quot;);           continue; }</span>
+<span class="cm">            &quot;static&quot;           { printf(&quot;STATIC&quot;);           continue; }</span>
+<span class="cm">            &quot;static_cast&quot;      { printf(&quot;STATIC_CAST&quot;);      continue; }</span>
+<span class="cm">            &quot;struct&quot;           { printf(&quot;STRUCT&quot;);           continue; }</span>
+<span class="cm">            &quot;switch&quot;           { printf(&quot;SWITCH&quot;);           continue; }</span>
+<span class="cm">            &quot;template&quot;         { printf(&quot;TEMPLATE&quot;);         continue; }</span>
+<span class="cm">            &quot;this&quot;             { printf(&quot;THIS&quot;);             continue; }</span>
+<span class="cm">            &quot;throw&quot;            { printf(&quot;THROW&quot;);            continue; }</span>
+<span class="cm">            &quot;try&quot;              { printf(&quot;TRY&quot;);              continue; }</span>
+<span class="cm">            &quot;typedef&quot;          { printf(&quot;TYPEDEF&quot;);          continue; }</span>
+<span class="cm">            &quot;typeid&quot;           { printf(&quot;TYPEID&quot;);           continue; }</span>
+<span class="cm">            &quot;typename&quot;         { printf(&quot;TYPENAME&quot;);         continue; }</span>
+<span class="cm">            &quot;union&quot;            { printf(&quot;UNION&quot;);            continue; }</span>
+<span class="cm">            &quot;unsigned&quot;         { printf(&quot;UNSIGNED&quot;);         continue; }</span>
+<span class="cm">            &quot;using&quot;            { printf(&quot;USING&quot;);            continue; }</span>
+<span class="cm">            &quot;virtual&quot;          { printf(&quot;VIRTUAL&quot;);          continue; }</span>
+<span class="cm">            &quot;void&quot;             { printf(&quot;VOID&quot;);             continue; }</span>
+<span class="cm">            &quot;volatile&quot;         { printf(&quot;VOLATILE&quot;);         continue; }</span>
+<span class="cm">            &quot;wchar_t&quot;          { printf(&quot;WCHAR_T&quot;);          continue; }</span>
+<span class="cm">            &quot;while&quot;            { printf(&quot;WHILE&quot;);            continue; }</span>
+
+<span class="cm">            // operators and punctuation (including preprocessor)</span>
+<span class="cm">            (&quot;{&quot; | &quot;&lt;%&quot;)      { printf(&quot;{&quot;);      continue; }</span>
+<span class="cm">            (&quot;}&quot; | &quot;%&gt;&quot;)      { printf(&quot;}&quot;);      continue; }</span>
+<span class="cm">            (&quot;[&quot; | &quot;&lt;:&quot;)      { printf(&quot;[&quot;);      continue; }</span>
+<span class="cm">            (&quot;]&quot; | &quot;:&gt;&quot;)      { printf(&quot;]&quot;);      continue; }</span>
+<span class="cm">            &quot;(&quot;               { printf(&quot;(&quot;);      continue; }</span>
+<span class="cm">            &quot;)&quot;               { printf(&quot;)&quot;);      continue; }</span>
+<span class="cm">            &quot;;&quot;               { printf(&quot;;&quot;);      continue; }</span>
+<span class="cm">            &quot;:&quot;               { printf(&quot;:&quot;);      continue; }</span>
+<span class="cm">            &quot;...&quot;             { printf(&quot;...&quot;);    continue; }</span>
+<span class="cm">            &quot;new&quot;             { printf(&quot;new&quot;);    continue; }</span>
+<span class="cm">            &quot;delete&quot;          { printf(&quot;delete&quot;); continue; }</span>
+<span class="cm">            &quot;?&quot;               { printf(&quot;?&quot;);      continue; }</span>
+<span class="cm">            &quot;::&quot;              { printf(&quot;::&quot;);     continue; }</span>
+<span class="cm">            &quot;.&quot;               { printf(&quot;.&quot;);      continue; }</span>
+<span class="cm">            &quot;.*&quot;              { printf(&quot;.&quot;);      continue; }</span>
+<span class="cm">            &quot;+&quot;               { printf(&quot;+&quot;);      continue; }</span>
+<span class="cm">            &quot;-&quot;               { printf(&quot;-&quot;);      continue; }</span>
+<span class="cm">            &quot;*&quot;               { printf(&quot;*&quot;);      continue; }</span>
+<span class="cm">            &quot;/&quot;               { printf(&quot;/&quot;);      continue; }</span>
+<span class="cm">            &quot;%&quot;               { printf(&quot;%%&quot;);     continue; }</span>
+<span class="cm">            (&quot;^&quot; | &quot;xor&quot;)     { printf(&quot;^&quot;);      continue; }</span>
+<span class="cm">            (&quot;&amp;&quot; | &quot;bitand&quot;)  { printf(&quot;&amp;&quot;);      continue; }</span>
+<span class="cm">            (&quot;|&quot; | &quot;bitor&quot;)   { printf(&quot;|&quot;);      continue; }</span>
+<span class="cm">            (&quot;~&quot; | &quot;compl&quot;)   { printf(&quot;~&quot;);      continue; }</span>
+<span class="cm">            (&quot;!&quot; | &quot;not&quot;)     { printf(&quot;!&quot;);      continue; }</span>
+<span class="cm">            &quot;=&quot;               { printf(&quot;=&quot;);      continue; }</span>
+<span class="cm">            &quot;&lt;&quot;               { printf(&quot;&lt;&quot;);      continue; }</span>
+<span class="cm">            &quot;&gt;&quot;               { printf(&quot;&gt;&quot;);      continue; }</span>
+<span class="cm">            &quot;+=&quot;              { printf(&quot;+=&quot;);     continue; }</span>
+<span class="cm">            &quot;-=&quot;              { printf(&quot;-=&quot;);     continue; }</span>
+<span class="cm">            &quot;*=&quot;              { printf(&quot;*=&quot;);     continue; }</span>
+<span class="cm">            &quot;/=&quot;              { printf(&quot;/=&quot;);     continue; }</span>
+<span class="cm">            &quot;%=&quot;              { printf(&quot;%%=&quot;);    continue; }</span>
+<span class="cm">            (&quot;^=&quot; | &quot;xor_eq&quot;) { printf(&quot;^=&quot;);     continue; }</span>
+<span class="cm">            (&quot;&amp;=&quot; | &quot;and_eq&quot;) { printf(&quot;&amp;=&quot;);     continue; }</span>
+<span class="cm">            (&quot;|=&quot; | &quot;or_eq&quot;)  { printf(&quot;|=&quot;);     continue; }</span>
+<span class="cm">            &quot;&lt;&lt;&quot;              { printf(&quot;&lt;&lt;&quot;);     continue; }</span>
+<span class="cm">            &quot;&gt;&gt;&quot;              { printf(&quot;&gt;&gt;&quot;);     continue; }</span>
+<span class="cm">            &quot;&gt;&gt;=&quot;             { printf(&quot;&gt;&gt;=&quot;);    continue; }</span>
+<span class="cm">            &quot;&lt;&lt;=&quot;             { printf(&quot;&lt;&lt;=&quot;);    continue; }</span>
+<span class="cm">            &quot;==&quot;              { printf(&quot;==&quot;);     continue; }</span>
+<span class="cm">            (&quot;!=&quot; | &quot;not_eq&quot;) { printf(&quot;!=&quot;);     continue; }</span>
+<span class="cm">            &quot;&lt;=&quot;              { printf(&quot;&lt;=&quot;);     continue; }</span>
+<span class="cm">            &quot;&gt;=&quot;              { printf(&quot;&gt;=&quot;);     continue; }</span>
+<span class="cm">            (&quot;&amp;&amp;&quot; | &quot;and&quot;)    { printf(&quot;&amp;&amp;&quot;);     continue; }</span>
+<span class="cm">            (&quot;||&quot; | &quot;or&quot;)     { printf(&quot;||&quot;);     continue; }</span>
+<span class="cm">            &quot;++&quot;              { printf(&quot;++&quot;);     continue; }</span>
+<span class="cm">            &quot;--&quot;              { printf(&quot;--&quot;);     continue; }</span>
+<span class="cm">            &quot;,&quot;               { printf(&quot;,&quot;);      continue; }</span>
+<span class="cm">            &quot;-&gt;*&quot;             { printf(&quot;-&gt;*&quot;);    continue; }</span>
+<span class="cm">            &quot;-&gt;&quot;              { printf(&quot;-&gt;&quot;);     continue; }</span>
+
+<span class="cm">            // identifiers</span>
+<span class="cm">            id = [a-zA-Z_][a-zA-Z_0-9]*;</span>
+<span class="cm">            id { printf(&quot;%.*s&quot;, in.cur - in.tok, in.tok); continue; }</span>
+<span class="cm">        */</span>
+<span class="nl">sfx</span><span class="p">:</span>
+        <span class="cm">/*!re2c</span>
+<span class="cm">            &quot;&quot;          { if (u &gt; INT_MAX)  return false; printf(&quot;%d&quot;,  static_cast&lt;int&gt;(u));      continue; }</span>
+<span class="cm">            &#39;u&#39;         { if (u &gt; UINT_MAX) return false; printf(&quot;%u&quot;,  static_cast&lt;unsigned&gt;(u)); continue; }</span>
+<span class="cm">            &#39;l&#39;         { if (u &gt; LONG_MAX) return false; printf(&quot;%ld&quot;, static_cast&lt;long&gt;(u));     continue; }</span>
+<span class="cm">            &#39;ul&#39; | &#39;lu&#39; { printf(&quot;%lu&quot;, u); continue; }</span>
+<span class="cm">        */</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;usage: ./example &lt;filename&gt;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;rb&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">file</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error: cannot open file: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">input_t</span> <span class="n">in</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">lex</span><span class="p">(</span><span class="n">in</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;... error</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Notes:</p>
+<ul class="simple">
+<li>The main lexer is used to lex all trivial lexemes (macros, whitespace, boolean literals, keywords, operators, punctuators, and identifiers),
+recognize numeric literals (which are further parsed by a bunch of auxiliary lexers),
+and recognize the start of a string and character literals (which are further recognized and parsed by an auxiliary lexer).
+Numeric literals are thus lexed twice: this approach may be deemed inefficient,
+but it takes much more effort to validate and parse them in one go.
+Besides, a real-world lexer would rather recognize ill-formed lexemes (e.g., overflown integer literals),
+report them, and resume lexing.</li>
+<li>We don’t use re2c in cases where a hand-written parser looks simpler: when parsing octal and decimal literals
+(though a re2c-based parser would do exactly the same, without the slightest overhead).
+However, hexadecimal literals still require some lexing, which looks better with re2c.
+Again, it’s only a matter of taste: a re2c-based implementation adds no overhead.
+Look at the generated code to make sure.</li>
+<li>The main lexer and string lexer both use <code class="docutils literal notranslate"><span class="pre">re2c:yyfill:enable</span> <span class="pre">=</span> <span class="pre">1;</span></code>, other lexers use <code class="docutils literal notranslate"><span class="pre">re2c:yyfill:enable</span> <span class="pre">=</span> <span class="pre">0;</span></code>.
+This is very important: both the main lexer and string lexer advance input position to new (yet unseen) input characters,
+so they must check for the end of input and call <code class="docutils literal notranslate"><span class="pre">YYFILL</span></code>. In contrast, other lexers only parse lexemes that
+have already been recognized by the main lexer: these lexemes are guaranteed to be within buffer bounds
+(they are guarded by <code class="docutils literal notranslate"><span class="pre">in.tok</span></code> on the left and <code class="docutils literal notranslate"><span class="pre">in.lim</span></code> on the right).</li>
+<li>The hardest part is (unsurprisingly) floating-point literals.
+They are just as hard to lex as they are to use. <code class="docutils literal notranslate"><span class="pre">:)</span></code></li>
+</ul>
+<p>Generate, compile, and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ re2c -o cxx98.cc cxx98.re
+$ g++ -o cxx98 cxx98.cc
+</pre></div>
+</div>
+<p>Run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./cxx98 07_cxx98.re <span class="p">|</span> fold
+ STATIC CONST size_t <span class="nv">SIZE</span> <span class="o">=</span> <span class="m">64</span> * <span class="m">1024</span><span class="p">;</span> STRUCT input_t <span class="o">{</span> UNSIGNED CHAR buf<span class="o">[</span>SIZE +
+ YYMAXFILL<span class="o">]</span><span class="p">;</span> UNSIGNED CHAR *lim<span class="p">;</span> UNSIGNED CHAR *cur<span class="p">;</span> UNSIGNED CHAR *mar<span class="p">;</span> UNSIGNE
+D CHAR *tok<span class="p">;</span> BOOL eof<span class="p">;</span> FILE *CONST file<span class="p">;</span> input_t<span class="o">(</span>FILE *f<span class="o">)</span> : buf<span class="o">()</span> , lim<span class="o">(</span>buf + SI
+ZE<span class="o">)</span> , cur<span class="o">(</span>lim<span class="o">)</span> , mar<span class="o">(</span>lim<span class="o">)</span> , tok<span class="o">(</span>lim<span class="o">)</span> , eof<span class="o">(</span><span class="nb">false</span><span class="o">)</span> , file<span class="o">(</span>f<span class="o">)</span> <span class="o">{}</span> BOOL fill<span class="o">(</span>size_t
+need<span class="o">)</span> <span class="o">{</span> IF <span class="o">(</span>eof<span class="o">)</span> <span class="o">{</span> RETURN false<span class="p">;</span> <span class="o">}</span> CONST size_t <span class="nv">free</span> <span class="o">=</span> tok - buf<span class="p">;</span> IF <span class="o">(</span>free &lt; nee
+d<span class="o">)</span> <span class="o">{</span> RETURN false<span class="p">;</span> <span class="o">}</span> memmove<span class="o">(</span>buf, tok, lim - tok<span class="o">)</span><span class="p">;</span> lim -<span class="o">=</span> free<span class="p">;</span> cur -<span class="o">=</span> free<span class="p">;</span> mar
+ -<span class="o">=</span> free<span class="p">;</span> tok -<span class="o">=</span> free<span class="p">;</span> <span class="nv">lim</span> <span class="o">+=</span> fread<span class="o">(</span>lim, <span class="m">1</span>, free, file<span class="o">)</span><span class="p">;</span> IF <span class="o">(</span>lim &lt; buf + SIZE<span class="o">)</span> <span class="o">{</span>
+ <span class="nv">eof</span> <span class="o">=</span> true<span class="p">;</span> memset<span class="o">(</span>lim, <span class="m">0</span>, YYMAXFILL<span class="o">)</span><span class="p">;</span> <span class="nv">lim</span> <span class="o">+=</span> YYMAXFILL<span class="p">;</span> <span class="o">}</span> RETURN true<span class="p">;</span> <span class="o">}</span> <span class="o">}</span><span class="p">;</span> TE
+MPLATE&lt;INT base&gt; STATIC BOOL adddgt<span class="o">(</span>UNSIGNED LONG <span class="p">&amp;</span>u, UNSIGNED LONG d<span class="o">)</span> <span class="o">{</span> IF <span class="o">(</span>u &gt;
+ <span class="o">(</span>ULONG_MAX - d<span class="o">)</span> / base<span class="o">)</span> <span class="o">{</span> RETURN false<span class="p">;</span> <span class="o">}</span> <span class="nv">u</span> <span class="o">=</span> u * base + d<span class="p">;</span> RETURN true<span class="p">;</span> <span class="o">}</span> STAT
+IC BOOL lex_oct<span class="o">(</span>CONST UNSIGNED CHAR *s, CONST UNSIGNED CHAR *e, UNSIGNED LONG <span class="p">&amp;</span>u
+<span class="o">)</span> <span class="o">{</span> FOR <span class="o">(</span><span class="nv">u</span> <span class="o">=</span> <span class="m">0</span>, ++s<span class="p">;</span> s &lt; e<span class="p">;</span> ++s<span class="o">)</span> <span class="o">{</span> IF <span class="o">(</span>!adddgt&lt;<span class="m">8</span>&gt;<span class="o">(</span>u, *s - <span class="m">48</span><span class="o">))</span> <span class="o">{</span> RETURN false<span class="p">;</span> <span class="o">}</span>
+ <span class="o">}</span> RETURN true<span class="p">;</span> <span class="o">}</span> STATIC BOOL lex_dec<span class="o">(</span>CONST UNSIGNED CHAR *s, CONST UNSIGNED CHA
+R *e, UNSIGNED LONG <span class="p">&amp;</span>u<span class="o">)</span> <span class="o">{</span> FOR <span class="o">(</span><span class="nv">u</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> s &lt; e<span class="p">;</span> ++s<span class="o">)</span> <span class="o">{</span> IF <span class="o">(</span>!adddgt&lt;<span class="m">10</span>&gt;<span class="o">(</span>u, *s - <span class="m">48</span><span class="o">))</span>
+ <span class="o">{</span> RETURN false<span class="p">;</span> <span class="o">}</span> <span class="o">}</span> RETURN true<span class="p">;</span> <span class="o">}</span> STATIC BOOL lex_hex<span class="o">(</span>CONST UNSIGNED CHAR *s,
+CONST UNSIGNED CHAR *e, UNSIGNED LONG <span class="p">&amp;</span>u<span class="o">)</span> <span class="o">{</span> FOR <span class="o">(</span><span class="nv">u</span> <span class="o">=</span> <span class="m">0</span>, <span class="nv">s</span> <span class="o">+=</span> <span class="m">2</span><span class="p">;</span> s &lt; e<span class="p">;</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span> RETU
+RN true<span class="p">;</span> <span class="o">}</span> STATIC BOOL lex_str<span class="o">(</span>input_t <span class="p">&amp;</span>in, UNSIGNED CHAR q<span class="o">)</span> <span class="o">{</span> printf<span class="o">(</span><span class="s2">&quot;\x25\x63&quot;</span>
+, q<span class="o">)</span><span class="p">;</span> FOR <span class="o">(</span>UNSIGNED LONG <span class="nv">u</span> <span class="o">=</span> q<span class="p">;;</span> printf<span class="o">(</span><span class="s2">&quot;\x5c\x78\x25\x6c\x78&quot;</span>, u<span class="o">))</span> <span class="o">{</span> in.tok <span class="o">=</span> i
+n.cur<span class="p">;</span> <span class="o">}</span> printf<span class="o">(</span><span class="s2">&quot;\x25\x63&quot;</span>, q<span class="o">)</span><span class="p">;</span> RETURN true<span class="p">;</span> <span class="o">}</span> STATIC BOOL lex_flt<span class="o">(</span>CONST UNSIGNE
+D CHAR *s<span class="o">)</span> <span class="o">{</span> DOUBLE <span class="nv">d</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> DOUBLE <span class="nv">x</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span> INT <span class="nv">e</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> mant_int: mant_frac: exp_sig
+n: exp: sfx: end: printf<span class="o">(</span><span class="s2">&quot;\x25\x67&quot;</span>, d<span class="o">)</span><span class="p">;</span> RETURN true<span class="p">;</span> <span class="o">}</span> STATIC BOOL lex<span class="o">(</span>input_t
+<span class="p">&amp;</span>in<span class="o">)</span> <span class="o">{</span> UNSIGNED LONG u<span class="p">;</span> FOR <span class="o">(</span><span class="p">;;</span><span class="o">)</span> <span class="o">{</span> in.tok <span class="o">=</span> in.cur<span class="p">;</span> sfx: <span class="o">}</span> <span class="o">}</span> INT main<span class="o">(</span>INT argc,
+CHAR **argv<span class="o">)</span> <span class="o">{</span> IF <span class="o">(</span>argc !<span class="o">=</span> <span class="m">2</span><span class="o">)</span> <span class="o">{</span> <span class="nb">printf</span> <span class="o">(</span><span class="s2">&quot;\x75\x73\x61\x67\x65\x3a\x20\x2e\x2f\x6</span>
+<span class="s2">5\x78\x61\x6d\x70\x6c\x65\x20\x3c\x66\x69\x6c\x65\x6e\x61\x6d\x65\x3e\xa&quot;</span><span class="o">)</span><span class="p">;</span> RETU
+RN <span class="m">1</span><span class="p">;</span> <span class="o">}</span> FILE *file <span class="o">=</span> fopen<span class="o">(</span>argv<span class="o">[</span><span class="m">1</span><span class="o">]</span>, <span class="s2">&quot;\x72\x62&quot;</span><span class="o">)</span><span class="p">;</span> IF <span class="o">(</span>!file<span class="o">)</span> <span class="o">{</span> printf<span class="o">(</span><span class="s2">&quot;\x65\x72\x</span>
+<span class="s2">72\x6f\x72\x3a\x20\x63\x61\x6e\x6e\x6f\x74\x20\x6f\x70\x65\x6e\x20\x66\x69\x6c\x</span>
+<span class="s2">65\x3a\x20\x25\x73\xa&quot;</span>, argv<span class="o">[</span><span class="m">1</span><span class="o">])</span><span class="p">;</span> RETURN <span class="m">1</span><span class="p">;</span> <span class="o">}</span> input_t in<span class="o">(</span>file<span class="o">)</span><span class="p">;</span> IF <span class="o">(</span>!lex<span class="o">(</span>in<span class="o">))</span> <span class="o">{</span>
+printf<span class="o">(</span><span class="s2">&quot;\x2e\x2e\x2e\x20\x65\x72\x72\x6f\x72\xa&quot;</span><span class="o">)</span><span class="p">;</span> <span class="o">}</span> ELSE <span class="o">{</span> printf<span class="o">(</span><span class="s2">&quot;\xa&quot;</span><span class="o">)</span><span class="p">;</span> <span class="o">}</span> fcl
+ose<span class="o">(</span>file<span class="o">)</span><span class="p">;</span> RETURN <span class="m">0</span><span class="p">;</span> <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+      Last updated on Dec 27, 2019.
+    </div>
+  </body>
+</html>

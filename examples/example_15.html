@@ -1,0 +1,210 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Strings in binaries &#8212; re2c 1.2 documentation</title>
+    <link rel="stylesheet" href="../_static/theme-re2c.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="alternate" type="application/atom+xml" href="../feed/atom.xml" title="Atom 1.0" />
+    
+ 
+  </head><body>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="re2c-logo">
+    re2c
+</div>
+
+<h3><a href="../index.html">Home</a></h3>
+<div class="re2c-toc-global">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../manual/manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">Build instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/release_notes.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/changelog/changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="strings-in-binaries">
+<h1>Strings in binaries<a class="headerlink" href="#strings-in-binaries" title="Permalink to this headline">¶</a></h1>
+<p>The program below searches all strings starting with double underscore in the given binary file.
+The same method can be used to search for arbitrary signatures or keywords.
+Since we are dealing with a <em>binary</em> file, we cannot use the sentinel method to check for the end of input:
+binary files can contain all kinds of characters, so no sentinel can be chosen.
+The usual way in such cases is to use <code class="docutils literal notranslate"><span class="pre">YYLIMIT</span></code>-based checking: it requires padding input with <code class="docutils literal notranslate"><span class="pre">YYMAXFILL</span></code> fake characters,
+but it’s not a problem since the input is buffered anyway.</p>
+<p>However, this exampe takes another approach:
+it uses generic API to override the default checking mechanism.
+First, it disables the usual mechanism: suppresses the generation of <code class="docutils literal notranslate"><span class="pre">YYLESSTHAN</span></code> and <code class="docutils literal notranslate"><span class="pre">YYFILL</span></code> with <code class="docutils literal notranslate"><span class="pre">re2c:yyfill:enable</span> <span class="pre">=</span> <span class="pre">0;</span></code> configuration.
+Second, it redefines <code class="docutils literal notranslate"><span class="pre">YYSKIP</span></code> to perform checking before advancing to the next input character.
+In principle, this approach is less efficient:
+checking happens more frequently, as <code class="docutils literal notranslate"><span class="pre">YYSKIP</span></code> is invoked on each input character,
+while <code class="docutils literal notranslate"><span class="pre">YYLESSTHAN</span></code> happens only once per each strongly connected component of automaton.
+However, it allows to avoid padding.</p>
+<p><a class="reference download internal" href="../_downloads/15_binsyms.i--input(custom).re" download=""><code class="xref download docutils literal notranslate"><span class="pre">[binsyms.re]</span></code></a></p>
+<div class="highlight-cpp notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">lex</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cur</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">lim</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">mar</span><span class="p">,</span> <span class="o">*</span><span class="n">tok</span><span class="p">;</span>
+<span class="cp">#   define YYCTYPE     char</span>
+<span class="cp">#   define YYPEEK()    *cur</span>
+<span class="cp">#   define YYSKIP()    if (++cur == lim) return;</span>
+<span class="cp">#   define YYBACKUP()  mar = cur</span>
+<span class="cp">#   define YYRESTORE() cur = mar</span>
+<span class="nl">loop</span><span class="p">:</span>
+    <span class="n">tok</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        re2c:yyfill:enable = 0;</span>
+
+<span class="cm">        * { goto loop; }</span>
+<span class="cm">        &quot;__&quot; [a-zA-Z0-9_]+ {</span>
+<span class="cm">            printf(&quot;%.*s\n&quot;, (int) (cur - tok), tok);</span>
+<span class="cm">            goto loop;</span>
+<span class="cm">        }</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;no input files</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;rb&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;cannot open file</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">fseek</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SEEK_END</span><span class="p">);</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">fsize</span> <span class="o">=</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span> <span class="n">ftell</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="n">fseek</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SEEK_SET</span><span class="p">);</span>
+
+    <span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">fsize</span><span class="p">);</span>
+    <span class="n">fread</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+    <span class="n">lex</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">+</span> <span class="n">fsize</span><span class="p">);</span>
+
+    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Compile:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ re2c --input custom -o binsyms.cc binsyms.re
+$ g++ -o binsyms binsyms.cc
+</pre></div>
+</div>
+<p>Run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./binsyms binsyms
+__gmon_start__
+__libc_start_main
+__off_t
+__cxx11
+__gnu_cxx3divExx
+__off64_t
+__pad1
+__pad2
+__pad3
+__pad4
+__pad5
+__compar_fn_t
+__gnu_cxx
+__init_array_start
+__libc_csu_fini
+__libc_csu_init
+__init_array_end
+__GNU_EH_FRAME_HDR
+__init_array_end
+__init_array_start
+__libc_csu_fini
+__gmon_start__
+__libc_start_main
+__data_start
+__TMC_END__
+__dso_handle
+__libc_csu_init
+__bss_start
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+      Last updated on Dec 27, 2019.
+    </div>
+  </body>
+</html>

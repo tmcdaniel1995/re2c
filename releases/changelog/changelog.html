@@ -1,0 +1,1327 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Changelog &#8212; re2c 1.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/theme-re2c.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="alternate" type="application/atom+xml" href="../../feed/atom.xml" title="Atom 1.0" />
+    
+ 
+  </head><body>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="re2c-logo">
+    re2c
+</div>
+
+<h3><a href="../../index.html">Home</a></h3>
+<div class="re2c-toc-global">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../manual/manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install/install.html">Build instructions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../release_notes.html">Release notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
+</ul>
+
+</div>
+    <h3>Changelog</h3>
+    <div class="re2c-toc-local">
+        <ul>
+<li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#x">1.3x</a><ul>
+<li><a class="reference internal" href="#id1">1.3 (2019-12-14)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">1.2x</a><ul>
+<li><a class="reference internal" href="#id4">1.2.1 (2019-08-11)</a></li>
+<li><a class="reference internal" href="#id7">1.2 (2019-08-02)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id56">1.1x</a><ul>
+<li><a class="reference internal" href="#id57">1.1.1 (2018-08-30)</a></li>
+<li><a class="reference internal" href="#id59">1.1 (2018-08-27)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id61">1.0x</a><ul>
+<li><a class="reference internal" href="#id62">1.0.3 (2017-11-08)</a></li>
+<li><a class="reference internal" href="#id64">1.0.2 (2017-08-26)</a></li>
+<li><a class="reference internal" href="#id66">1.0.1 (2017-08-11)</a></li>
+<li><a class="reference internal" href="#id68">1.0 (2017-08-11)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id98">0.16x</a><ul>
+<li><a class="reference internal" href="#id99">0.16 (2016-01-21)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id103">0.15x</a><ul>
+<li><a class="reference internal" href="#id104">0.15.3 (2015-12-02)</a></li>
+<li><a class="reference internal" href="#id108">0.15.2 (2015-11-23)</a></li>
+<li><a class="reference internal" href="#id109">0.15.1 (2015-11-22)</a></li>
+<li><a class="reference internal" href="#id110">0.15 (2015-11-22)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id120">0.14x</a><ul>
+<li><a class="reference internal" href="#id121">0.14.3 (2015-05-20)</a></li>
+<li><a class="reference internal" href="#id123">0.14.2 (2015-03-25)</a></li>
+<li><a class="reference internal" href="#id125">0.14.1 (2015-02-27)</a></li>
+<li><a class="reference internal" href="#id127">0.14 (2015-02-23)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id131">0.13x</a><ul>
+<li><a class="reference internal" href="#id132">0.13.7.5 (2014-08-22)</a></li>
+<li><a class="reference internal" href="#id133">0.13.7.4 (2014-07-29)</a></li>
+<li><a class="reference internal" href="#id134">0.13.7.3 (2014-07-27)</a></li>
+<li><a class="reference internal" href="#id135">0.13.7.2 (2014-07-27)</a></li>
+<li><a class="reference internal" href="#id136">0.13.7.1 (2014-07-26)</a></li>
+<li><a class="reference internal" href="#id137">0.13.7 (2014-07-25)</a></li>
+<li><a class="reference internal" href="#id138">0.13.6 (2013-07-04)</a></li>
+<li><a class="reference internal" href="#id139">0.13.5 (2008-05-25)</a></li>
+<li><a class="reference internal" href="#id140">0.13.4 (2008-04-05)</a></li>
+<li><a class="reference internal" href="#id141">0.13.3 (2008-03-14)</a></li>
+<li><a class="reference internal" href="#id142">0.13.2 (2008-02-14)</a></li>
+<li><a class="reference internal" href="#id143">0.13.1 (2007-08-24)</a></li>
+<li><a class="reference internal" href="#id144">0.13.0 (2007-06-24)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id145">0.12x</a><ul>
+<li><a class="reference internal" href="#id146">0.12.3 (2007-08-24)</a></li>
+<li><a class="reference internal" href="#id147">0.12.2 (2007-06-26)</a></li>
+<li><a class="reference internal" href="#id148">0.12.1 (2007-05-23)</a></li>
+<li><a class="reference internal" href="#id149">0.12.0 (2007-05-01)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id150">0.11x</a><ul>
+<li><a class="reference internal" href="#id151">0.11.3 (2007-04-01)</a></li>
+<li><a class="reference internal" href="#id152">0.11.2 (2007-03-01)</a></li>
+<li><a class="reference internal" href="#id153">0.11.1 (2007-02-20)</a></li>
+<li><a class="reference internal" href="#id154">0.11.0 (2007-01-01)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id155">0.10x</a><ul>
+<li><a class="reference internal" href="#id156">0.10.8 (2007-04-01)</a></li>
+<li><a class="reference internal" href="#id157">0.10.7 (2007-02-20)</a></li>
+<li><a class="reference internal" href="#id158">0.10.6 (2006-08-05)</a></li>
+<li><a class="reference internal" href="#id159">0.10.5 (2006-06-11)</a></li>
+<li><a class="reference internal" href="#id160">0.10.4 (2006-06-01)</a></li>
+<li><a class="reference internal" href="#id161">0.10.3 (2006-05-14)</a></li>
+<li><a class="reference internal" href="#id162">0.10.2 (2006-05-01)</a></li>
+<li><a class="reference internal" href="#id163">0.10.1 (2006-02-28)</a></li>
+<li><a class="reference internal" href="#id164">0.10.0 (2006-02-18)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id165">0.9x</a><ul>
+<li><a class="reference internal" href="#id166">0.9.12 (2005-12-28)</a></li>
+<li><a class="reference internal" href="#id167">0.9.11 (2005-12-18)</a></li>
+<li><a class="reference internal" href="#id168">0.9.10 (2005-09-04)</a></li>
+<li><a class="reference internal" href="#id169">0.9.9 (2005-07-21)</a></li>
+<li><a class="reference internal" href="#id170">0.9.8 (2005-06-26)</a></li>
+<li><a class="reference internal" href="#id171">0.9.7 (2005-04-30)</a></li>
+<li><a class="reference internal" href="#id172">0.9.6 (2005-04-14)</a></li>
+<li><a class="reference internal" href="#id173">0.9.5 (2005-04-08)</a></li>
+<li><a class="reference internal" href="#id174">0.9.4 (2005-03-12)</a></li>
+<li><a class="reference internal" href="#id175">0.9.3 (2004-05-26)</a></li>
+<li><a class="reference internal" href="#id176">0.9.2 (2004-05-26)</a></li>
+<li><a class="reference internal" href="#id177">0.9.1 (2003-12-13)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#re2c-adopted-2003-12-09">re2c adopted (2003-12-09)</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="x">
+<h2>1.3x<a class="headerlink" href="#x" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>1.3 (2019-12-14)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added option: <code class="docutils literal notranslate"><span class="pre">--stadfa</span></code>.</li>
+<li>Added warning: <code class="docutils literal notranslate"><span class="pre">-Wsentinel-in-midrule</span></code>.</li>
+<li>Added generic API primitives:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">YYSTAGPD</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYMTAGPD</span></code></li>
+</ul>
+</li>
+<li>Added configurations:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:sentinel</span> <span class="pre">=</span> <span class="pre">0;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYSTAGPD</span> <span class="pre">=</span> <span class="pre">&quot;YYSTAGPD&quot;;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYMTAGPD</span> <span class="pre">=</span> <span class="pre">&quot;YYMTAGPD&quot;;</span></code></li>
+</ul>
+</li>
+<li>Worked on reproducible builds
+(<a class="reference external" href="https://github.com/skvadrik/re2c/pull/258">#258</a>:
+Make the build reproducible).</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>1.2x<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>1.2.1 (2019-08-11)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/253">#253</a>:
+re2c should install unicode_categories.re somewhere.</li>
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/254">#254</a>:
+Turn off re2c:eof = 0.</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>1.2 (2019-08-02)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added EOF rule <code class="docutils literal notranslate"><span class="pre">$</span></code> and configuration <code class="docutils literal notranslate"><span class="pre">re2c:eof</span></code>.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">/*!include:re2c</span> <span class="pre">...</span> <span class="pre">*/</span></code> directive and <code class="docutils literal notranslate"><span class="pre">-I</span></code> option.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">/*!header:re2c:on*/</span></code> and <code class="docutils literal notranslate"><span class="pre">/*!header:re2c:off*/</span></code> directives.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">--input-encoding</span> <span class="pre">&lt;ascii</span> <span class="pre">|</span> <span class="pre">utf8&gt;</span></code> option.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/237">#237</a>:
+Handle non-ASCII encoded characters in regular expressions</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/250">#250</a>
+UTF8 enoding</li>
+</ul>
+</li>
+<li>Added include file with a list of definitions for Unicode character classes.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/235">#235</a>:
+Unicode character classes</li>
+</ul>
+</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">--location-format</span> <span class="pre">&lt;gnu</span> <span class="pre">|</span> <span class="pre">msvc&gt;</span></code> option.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/195">#195</a>:
+Please consider using Gnu format for error messages</li>
+</ul>
+</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> option that prints “success” message if re2c exits
+without errors.</li>
+<li>Added configurations for options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">--output</span></code> (specify output file)</li>
+<li><code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">--type-header</span></code> (specify header file)</li>
+</ul>
+</li>
+<li>Removed configurations for internal/debug options.</li>
+<li>Extended <code class="docutils literal notranslate"><span class="pre">-r</span></code> option: allow to mix multiple <code class="docutils literal notranslate"><span class="pre">/*!rules:re2c*/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/*!use:re2c*/</span></code> and <code class="docutils literal notranslate"><span class="pre">/*!re2c*/</span></code> blocks.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/55">#55</a>:
+allow standard re2c blocks in reuse mode</li>
+</ul>
+</li>
+<li>Fixed <code class="docutils literal notranslate"><span class="pre">-F</span> <span class="pre">--flex-support</span></code> option: parsing and operator precedence.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/229">#229</a>:
+re2c option -F (flex syntax) broken</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/242">#242</a>:
+Operator precedence with –flex-syntax is broken</li>
+</ul>
+</li>
+<li>Changed difference operator <code class="docutils literal notranslate"><span class="pre">/</span></code> to apply before encoding expansion of
+operands.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/236">#236</a>:
+Support range difference with variable-length encodings</li>
+</ul>
+</li>
+<li>Changed output generation of output file to be atomic.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/245">#245</a>:
+re2c output is not atomic</li>
+</ul>
+</li>
+<li>Authored research paper “Efficient POSIX Submatch Extraction on NFA”
+together with Dr Angelo Borsotti.</li>
+<li>Added experimental libre2c library (<code class="docutils literal notranslate"><span class="pre">--enable-libs</span></code> configure option) with
+the following algorithms:<ul>
+<li>TDFA with leftmost-greedy disambiguation</li>
+<li>TDFA with POSIX disambiguation (Okui-Suzuki algorithm)</li>
+<li>TNFA with leftmost-greedy disambiguation</li>
+<li>TNFA with POSIX disambiguation (Okui-Suzuki algorithm)</li>
+<li>TNFA with lazy POSIX disambiguation (Okui-Suzuki algorithm)</li>
+<li>TNFA with POSIX disambiguation (Kuklewicz algorithm)</li>
+<li>TNFA with POSIX disambiguation (Cox algorithm)</li>
+</ul>
+</li>
+<li>Added debug subsystem (<code class="docutils literal notranslate"><span class="pre">--enable-debug</span></code> configure option) and new debug
+options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-dump-cfg</span></code> (dump control flow graph of tag variables)</li>
+<li><code class="docutils literal notranslate"><span class="pre">-dump-interf</span></code> (dump interference table of tag variables)</li>
+<li><code class="docutils literal notranslate"><span class="pre">-dump-closure-stats</span></code> (dump epsilon-closure statistics)</li>
+</ul>
+</li>
+<li>Added internal options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">--posix-closure</span> <span class="pre">&lt;gor1</span> <span class="pre">|</span> <span class="pre">gtop&gt;</span></code> (switch between shortest-path algorithms
+used for the construction of POSIX closure)</li>
+</ul>
+</li>
+<li>Fixed a number of crashes found by American Fuzzy Lop fuzzer:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/226">#226</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/227">#227</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/228">#228</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/231">#231</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/232">#232</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/233">#233</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/234">#234</a>,
+<a class="reference external" href="https://github.com/skvadrik/re2c/issues/238">#238</a></li>
+</ul>
+</li>
+<li>Fixed handling of newlines:<ul>
+<li>correctly parse multi-character newlines CR LF in <code class="docutils literal notranslate"><span class="pre">#line</span></code> directives</li>
+<li>consistently convert all newlines in the generated file to Unix-style LF</li>
+</ul>
+</li>
+<li>Changed default tarball format from .gz to .xz.<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/221">#221</a>:
+big source tarball</li>
+</ul>
+</li>
+<li>Fixed a number of other bugs and resolved issues:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/2">#2</a>: abort</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/6">#6</a>: segfault</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/10">#10</a>:
+lessons/002_upn_calculator/calc_002 doesn’t produce a useful example program</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/44">#44</a>:
+Access violation when translating the attached file</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/49">#49</a>:
+wildcard state 000 rules makes lexer behave weard</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/98">#98</a>:
+Transparent handling of #line directives in input files</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/104">#104</a>:
+Improve const-correctness</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/105">#105</a>:
+Conversion of pointer parameters into references</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/114">#114</a>:
+Possibility of fixing bug 2535084</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/120">#120</a>:
+condition consisting of default rule only is ignored</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/167">#167</a>:
+Add word boundary support</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/168">#168</a>:
+Wikipedia’s article on re2c</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/180">#180</a>:
+Comment syntax?</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/182">#182</a>:
+yych being set by YYPEEK () and then not used</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/196">#196</a>:
+Implicit type conversion warnings</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/198">#198</a>:
+no match for ‘operator!=’ in ‘i != std::vector&lt;_Tp, _Alloc&gt;::rend() [with _Tp = re2c::bitmap_t, _Alloc = std::allocator&lt;re2c::bitmap_t&gt;]()’</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/210">#210</a>:
+How to build re2c in windows?</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/215">#215</a>:
+A memory read overrun issue in s_to_n32_unsafe.cc</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/220">#220</a>:
+src/dfa/dfa.h: simplify constructor to avoid g++-3.4 bug</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/223">#223</a>:
+Fix typo</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/224">#224</a>:
+src/dfa/closure_posix.cc: pack() tweaks</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/225">#225</a>:
+Documentation link is broken in libre2c/README</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/230">#230</a>:
+Changes for upcoming Travis’ infra migration</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/239">#239</a>:
+Push model example has wrong re2c invocation, breaks guide</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/241">#241</a>:
+Guidance on how to use re2c for full-duplex command &amp; response protocol</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/243">#243</a>:
+A code generated for period (.) requires 4 bytes</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/246">#246</a>:
+Please add a license to this repo</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/247">#247</a>:
+Build failure on current Cygwin, probably caused by force-fed c++98 mode</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/248">#248</a>:
+distcheck still looks for README</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/251">#251</a>:
+Including what you use is find, but not without inclusion guards</li>
+</ul>
+</li>
+<li>Updated documentation and website.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id56">
+<h2>1.1x<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id57">
+<h3>1.1.1 (2018-08-30)<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/211">#211</a>:
+re2c <code class="docutils literal notranslate"><span class="pre">-V</span></code> throws <code class="docutils literal notranslate"><span class="pre">std::out_of_range</span></code> (version to vernum conversion).</li>
+</ul>
+</div>
+<div class="section" id="id59">
+<h3>1.1 (2018-08-27)<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Replaced Kuklewicz POSIX disambiguation algorithm with Okui algorithm.</li>
+<li>Optimized GOR1 algorithm (computation of tagged epsilon-closure).</li>
+<li>Added option <code class="docutils literal notranslate"><span class="pre">--conditions</span></code> (an alias for <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">--start-conditions</span></code>).</li>
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/201">#201</a>:
+Bugs with option: <code class="docutils literal notranslate"><span class="pre">re2c:flags:no-debug-info</span></code>.</li>
+<li>Reworked first part of TDFA paper.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id61">
+<h2>1.0x<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id62">
+<h3>1.0.3 (2017-11-08)<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/198">#198</a>:
+build error on MacOS with GCC-4.2.1</li>
+</ul>
+</div>
+<div class="section" id="id64">
+<h3>1.0.2 (2017-08-26)<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/194">#194</a>:
+Build with <code class="docutils literal notranslate"><span class="pre">--enable-docs</span></code></li>
+<li>Updated documentation.</li>
+</ul>
+</div>
+<div class="section" id="id66">
+<h3>1.0.1 (2017-08-11)<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/193">#193</a>:
+1.0 build failure on macOS: error: calling a private constructor of class
+‘re2c::Rule’</li>
+<li>Added paper “Tagged Deterministic Finite Automata with Lookahead” to the
+distribution files.</li>
+</ul>
+</div>
+<div class="section" id="id68">
+<h3>1.0 (2017-08-11)<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-P</span> <span class="pre">--posix-captures</span></code> (POSIX-compliant capturing groups)</li>
+<li><code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">--tags</span></code> (standalone tags with leftmost greedy disambiguation)</li>
+<li><code class="docutils literal notranslate"><span class="pre">--no-lookahead</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--no-optimize-tags</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--eager-skip</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-nfa</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-dfa-raw</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-dfa-det</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-dfa-tagopt</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-dfa-min</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--dump-adfa</span></code></li>
+</ul>
+</li>
+<li>Added new syntax:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">&#64;&lt;stag&gt;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">#&lt;mtag&gt;</span></code></li>
+</ul>
+</li>
+<li>Added new directives:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">/*!stags:re2c</span> <span class="pre">...</span> <span class="pre">*/</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/*!mtags:re2c</span> <span class="pre">...</span> <span class="pre">*/</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/*!maxnmatch:re2c</span> <span class="pre">...</span> <span class="pre">*/</span></code></li>
+</ul>
+</li>
+<li>Added new API:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">YYSTAGN</span> <span class="pre">(t)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYSTAGP</span> <span class="pre">(t)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYMTAGN</span> <span class="pre">(t)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYMTAGP</span> <span class="pre">(t)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYRESTORETAG</span> <span class="pre">(t)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">YYMAXNMATCH</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">yynmatch</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">yypmatch</span></code></li>
+</ul>
+</li>
+<li>Added inplace confgurations:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYSTAGN</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYSTAGP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYMTAGN</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYMTAGP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:define:YYRESTORETAG</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:8</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:utf-8``</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:b</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:bit-vectors</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:case-insensitive</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:case-inverted</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:d</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:debug-output</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:dfa-minimization</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:eager-skip</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:e</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:ecb</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:empty-class</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:encoding-policy</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:g</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:computed-gotos</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:i</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:no-debug-info</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:input</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:lookahead</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:optimize-tags</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:P</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:posix-captures</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:s</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:nested-ifs</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:T</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:tags</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:u</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:unicode</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:w</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:wide-chars</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:flags:x</span></code> or <code class="docutils literal notranslate"><span class="pre">re2c:flags:utf-16</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:tags:expression</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">re2c:tags:prefix</span></code></li>
+</ul>
+</li>
+<li>Added warning <code class="docutils literal notranslate"><span class="pre">-Wnondeterministic-tags</span></code>.</li>
+<li>Added fuzz-testing scripts</li>
+<li>Added paper “Tagged Deterministic Finite Automata with Lookahead”.</li>
+<li>Fixed bugs:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/121">#121</a>:
+trailing contexts are fundamentally broken</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/135">#135</a>:
+In installation <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">check</span></code> give syntax error</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/137">#137</a>:
+run_tests.sh fail when running configure script with absolute path</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/138">#138</a>:
+website improvement</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/141">#141</a>:
+Tests under Windows</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/142">#142</a>:
+segvault with null terminated input</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/145">#145</a>:
+Values for enum YYCONDTYPE are not generated when default rules with conditions are used</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/147">#147</a>:
+Please add symbol name to “can’t find symbol” error message</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/152">#152</a>:
+Line number in #line directive after enum YYCONDTYPE is 0-based</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/156">#156</a>:
+Build with Visual Studio 14 2015: symbol name conflict</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/158">#158</a>:
+Inconsistent forward declaration of struct/class vs definition</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/160">#160</a>:
+Open text files with “wb” causes issues on Windows</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/162">#162</a>:
+Reading files with “rb” causes issues in Windows</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/165">#165</a>:
+Trailing context consumed if initial expression matches it</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/176">#176</a>:
+re2c help message is too wide for most terminals</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/184">#184</a>:
+Small documentation issue</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/186">#186</a>:
+Difference operator sometimes doesn’t work with utf-8</li>
+</ul>
+</li>
+<li>Merged pull requests:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/131">#131</a>:
+Use bash-specific <code class="docutils literal notranslate"><span class="pre">[[</span></code> builtin</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/136">#136</a>:
+Added basic support for travis-ci.org integration</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/171">#171</a>:
+Typo fix</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/172">#172</a>:
+Grammar fixes in the docs</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/173">#173</a>:
+Grammar fixes in the manpage</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/174">#174</a>:
+more documentation fixes</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/175">#175</a>:
+more manpage fixes</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/177">#177</a>:
+sync –help output w/ manpage</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/178">#178</a>:
+Moves rts used in the manpage to master</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/179">#179</a>:
+compose manpage out of rsts from gh-pages-gen</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/189">#189</a>:
+Typo fix and small grammatical change</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/191">#191</a>:
+Makefile.am: create target directory before writing into it</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id98">
+<h2>0.16x<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id99">
+<h3>0.16 (2016-01-21)<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/127">#127</a>:
+code generation error with wide chars and bitmaps (omitted <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement)</li>
+<li>Added DFA minimization and option <code class="docutils literal notranslate"><span class="pre">--dfa-minimization</span> <span class="pre">&lt;table</span> <span class="pre">|</span> <span class="pre">moore&gt;</span></code></li>
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/128">#128</a>:
+very slow DFA construction (resulting in a very large DFA)</li>
+<li>Fixed bug <a class="reference external" href="https://github.com/skvadrik/re2c/issues/132">#132</a>:
+test failure on big endian archs with 0.15.3</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id103">
+<h2>0.15x<a class="headerlink" href="#id103" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id104">
+<h3>0.15.3 (2015-12-02)<a class="headerlink" href="#id104" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bugs and applied patches:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/122">#122</a>:
+clang does not compile re2c 0.15.x</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/124">#124</a>:
+Get rid of UINT32_MAX and friends</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/125">#125</a>:
+[OS X] git reports changes not staged for commit in newly cloned repository</li>
+</ul>
+</li>
+<li>Added option <code class="docutils literal notranslate"><span class="pre">--no-version</span></code> that allows to omit version information.</li>
+<li>Reduced memory and time consumed with <code class="docutils literal notranslate"><span class="pre">-Wundefined-control-flow</span></code>.</li>
+<li>Improved coverage of input data generated with <code class="docutils literal notranslate"><span class="pre">-S</span> <span class="pre">--skeleton</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id108">
+<h3>0.15.2 (2015-11-23)<a class="headerlink" href="#id108" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed build system: lexer depends on bison-generated header
+(Gentoo bug: <a class="reference external" href="https://bugs.gentoo.org/show_bug.cgi?id=566620">https://bugs.gentoo.org/show_bug.cgi?id=566620</a>)</li>
+</ul>
+</div>
+<div class="section" id="id109">
+<h3>0.15.1 (2015-11-22)<a class="headerlink" href="#id109" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed test failures caused by locale-sensitive ‘sort’.</li>
+</ul>
+</div>
+<div class="section" id="id110">
+<h3>0.15 (2015-11-22)<a class="headerlink" href="#id110" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Updated website <a class="reference external" href="http://re2c.org">http://re2c.org</a>:<ul>
+<li>added examples</li>
+<li>updated docs</li>
+<li>added news</li>
+<li>added web feed (Atom 1.0)</li>
+</ul>
+</li>
+<li>Added options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-S,</span> <span class="pre">--skeleton</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">--empty-class</span> <span class="pre">&lt;match-empty</span> <span class="pre">|</span> <span class="pre">match-none</span> <span class="pre">|</span> <span class="pre">error&gt;</span></code></li>
+</ul>
+</li>
+<li>Added warnings:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-W</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Werror</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-W&lt;warning&gt;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wno-&lt;warning&gt;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Werror-&lt;warning&gt;</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wno-error-&lt;warning&gt;</span></code></li>
+</ul>
+</li>
+<li>Added specific warnings:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-Wundefined-control-flow</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wunreachable-rules</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wcondition-order</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wuseless-escape</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wempty-character-class</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wswapped-range</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">-Wmatch-empty-string</span></code></li>
+</ul>
+</li>
+<li>Fixed options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">--</span></code> (interpret remaining arguments as non-options)</li>
+</ul>
+</li>
+<li>Deprecated options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-1</span> <span class="pre">--single-pass</span></code> (single pass is the default now)</li>
+</ul>
+</li>
+<li>Reduced size of the generated <code class="docutils literal notranslate"><span class="pre">.dot</span></code> files.</li>
+<li>Fixed bugs:<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/27">#27</a>:
+re2c crashes reading files containing <code class="docutils literal notranslate"><span class="pre">%{</span> <span class="pre">%}</span></code> (patch by Rui)</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/51">#51</a>:
+default rule doesn’t work in reuse mode</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/52">#52</a>:
+eliminate multiple passes</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/59">#59</a>:
+bogus <code class="docutils literal notranslate"><span class="pre">yyaccept</span></code> in <code class="docutils literal notranslate"><span class="pre">-c</span></code> mode</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/60">#60</a>:
+redundant use of <code class="docutils literal notranslate"><span class="pre">YYMARKER</span></code></li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/61">#61</a>:
+empty character class <code class="docutils literal notranslate"><span class="pre">[]</span></code> matches empty string</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/115">#115</a>:
+flex-style named definitions cause ambiguity in re2c grammar</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/119">#119</a>:
+<code class="docutils literal notranslate"><span class="pre">-f</span></code> with <code class="docutils literal notranslate"><span class="pre">-b</span></code>/<code class="docutils literal notranslate"><span class="pre">-g</span></code> generates incorrect dispatch on fill labels</li>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/116">#116</a>:
+empty string with non-empty trailing context consumes code units</li>
+</ul>
+</li>
+<li>Added test options:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">-j</span></code>, <code class="docutils literal notranslate"><span class="pre">-j</span> <span class="pre">&lt;N&gt;</span></code> (run tests in <code class="docutils literal notranslate"><span class="pre">N</span></code> threads, defaults to the number of CPUs)</li>
+<li><code class="docutils literal notranslate"><span class="pre">--wine</span></code> (test windows builds using <code class="docutils literal notranslate"><span class="pre">wine</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">--skeleton</span></code> (generate skeleton programs, compile and execute them)</li>
+<li><code class="docutils literal notranslate"><span class="pre">--keep-tmp-files</span></code> (don’t delete intermediate files for successful tests)</li>
+</ul>
+</li>
+<li>Updated build system:<ul>
+<li>support out of source builds</li>
+<li>support <code class="docutils literal notranslate"><span class="pre">`make</span> <span class="pre">distcheck`</span></code></li>
+<li>added <code class="docutils literal notranslate"><span class="pre">`make</span> <span class="pre">bootstrap`</span></code> (rebuild re2c after building with precompiled
+<code class="docutils literal notranslate"><span class="pre">.re</span></code> files)</li>
+<li>added <code class="docutils literal notranslate"><span class="pre">`make</span> <span class="pre">tests`</span></code> (run tests with <code class="docutils literal notranslate"><span class="pre">-j</span></code>)</li>
+<li>added <code class="docutils literal notranslate"><span class="pre">`make</span> <span class="pre">vtests`</span></code> (run tests with <code class="docutils literal notranslate"><span class="pre">--valgrind</span> <span class="pre">-j</span></code>)</li>
+<li>added <code class="docutils literal notranslate"><span class="pre">`make</span> <span class="pre">wtests`</span></code> (run tests with <code class="docutils literal notranslate"><span class="pre">--wine</span> <span class="pre">-j</span> <span class="pre">1</span></code>)</li>
+<li>added Autoconf tests for <code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span></code>. By default try the following options:
+<code class="docutils literal notranslate"><span class="pre">-W</span> <span class="pre">-Wall</span> <span class="pre">-Wextra</span> <span class="pre">-Weffc++</span> <span class="pre">-pedantic</span> <span class="pre">-Wformat=2</span> <span class="pre">-Wredundant-decls</span>
+<span class="pre">-Wsuggest-attribute=format</span> <span class="pre">-Wconversion</span> <span class="pre">-Wsign-conversion</span> <span class="pre">-O2</span> <span class="pre">-Weverything</span></code>),
+respect user-defined <code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span></code></li>
+<li>support Mingw builds: <code class="docutils literal notranslate"><span class="pre">`configure</span> <span class="pre">-host</span> <span class="pre">i686-w64-mingw32`</span></code></li>
+<li>structured source files</li>
+<li>removed old MSVC files</li>
+</ul>
+</li>
+<li>Moved development to github (<a class="reference external" href="https://github.com/skvadrik/re2c">https://github.com/skvadrik/re2c</a>),
+keep a mirror on sourceforge.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id120">
+<h2>0.14x<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id121">
+<h3>0.14.3 (2015-05-20)<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>applied patch <a class="reference external" href="https://github.com/skvadrik/re2c/issues/27">#27</a>:
+re2c crashes reading files containing %{ %}</li>
+<li>dropped distfiles for MSVC (they are broken anyway)</li>
+</ul>
+</div>
+<div class="section" id="id123">
+<h3>0.14.2 (2015-03-25)<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>fixed <a class="reference external" href="https://github.com/skvadrik/re2c/issues/57">#57</a>:
+Wrong result only if another rule is present</li>
+</ul>
+</div>
+<div class="section" id="id125">
+<h3>0.14.1 (2015-02-27)<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>fixed <a class="reference external" href="https://github.com/skvadrik/re2c/issues/55">#55</a>:
+re2c-0.14: re2c -V outputs null byte</li>
+</ul>
+</div>
+<div class="section" id="id127">
+<h3>0.14 (2015-02-23)<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added generic input API<ul>
+<li><a class="reference external" href="https://github.com/skvadrik/re2c/issues/21">#21</a>:
+Support to configure how re2c code interfaced with the symbol buffer?”</li>
+</ul>
+</li>
+<li>fixed <a class="reference external" href="https://github.com/skvadrik/re2c/issues/46">#46</a>:
+re2c generates an infinite loop, depends on existence of previous parser</li>
+<li>fixed <a class="reference external" href="https://github.com/skvadrik/re2c/issues/47">#47</a>:
+Dot output label escaped characters</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id131">
+<h2>0.13x<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id132">
+<h3>0.13.7.5 (2014-08-22)<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed <a class="reference external" href="https://bugs.gentoo.org/show_bug.cgi?id=518904">Gentoo bug with PHP lexer</a></li>
+</ul>
+</div>
+<div class="section" id="id133">
+<h3>0.13.7.4 (2014-07-29)<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Enabled <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs</span></code> only if configured with <code class="docutils literal notranslate"><span class="pre">--enable-docs</span></code></li>
+<li>Disallowed to use yacc/byacc instead of bison to build parser</li>
+<li>Removed non-portable sed feature in script that runs tests</li>
+</ul>
+</div>
+<div class="section" id="id134">
+<h3>0.13.7.3 (2014-07-27)<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed CXX warning</li>
+<li>Got rid of asciidoc build-time dependency</li>
+</ul>
+</div>
+<div class="section" id="id135">
+<h3>0.13.7.2 (2014-07-27)<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Included man page into dist, respect users CXXFLAGS.</li>
+</ul>
+</div>
+<div class="section" id="id136">
+<h3>0.13.7.1 (2014-07-26)<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added missing files to tarball</li>
+</ul>
+</div>
+<div class="section" id="id137">
+<h3>0.13.7 (2014-07-25)<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added UTF-8 support</li>
+<li>Added UTF-16 support</li>
+<li>Added default rule</li>
+<li>Added option to control ill-formed Unicode</li>
+</ul>
+</div>
+<div class="section" id="id138">
+<h3>0.13.6 (2013-07-04)<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #2535084 uint problem with Sun C 5.8</li>
+<li>#3308400: allow Yacc-style <code class="docutils literal notranslate"><span class="pre">%{</span></code> code brackets <code class="docutils literal notranslate"><span class="pre">}%</span></code></li>
+<li>#2506253: allow C++ <code class="docutils literal notranslate"><span class="pre">//</span></code> comments</li>
+<li>Fixed inplace configuration in <code class="docutils literal notranslate"><span class="pre">-e</span></code> mode.</li>
+<li>Applied #2482572 Typos in error messages.</li>
+<li>Applied #2482561 Error in manual section on <code class="docutils literal notranslate"><span class="pre">-r</span></code> mode.</li>
+<li>Fixed #2478216 Wrong <code class="docutils literal notranslate"><span class="pre">start_label</span></code> in <code class="docutils literal notranslate"><span class="pre">-c</span></code> mode.</li>
+<li>Fixed #2186718 Unescaped backslash in file name of <code class="docutils literal notranslate"><span class="pre">#line</span></code> directive.</li>
+<li>Fixed #2102138 Duplicate case labels on EBCDIC.</li>
+<li>Fixed #2088583 Compile problem on AIX.</li>
+<li>Fixed #2038610 Ebcdic problem.</li>
+<li>improve dot support: make char intervals (e.g. <code class="docutils literal notranslate"><span class="pre">[A-Z]</span></code>) instead of one edge
+per char</li>
+</ul>
+</div>
+<div class="section" id="id139">
+<h3>0.13.5 (2008-05-25)<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #1952896 Segfault in <code class="docutils literal notranslate"><span class="pre">re2c::Scanner::scan</span></code>.</li>
+<li>Fixed #1952842 Regression.</li>
+</ul>
+</div>
+<div class="section" id="id140">
+<h3>0.13.4 (2008-04-05)<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added transparent handling of <code class="docutils literal notranslate"><span class="pre">#line</span></code> directives in input files.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">re2c:yyfill:check</span></code> inplace configuration.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">re2c:define:YYSETSTATE:naked</span></code> inplace configuration.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">re2c:flags:w</span></code> and <code class="docutils literal notranslate"><span class="pre">re2c:flags:u</span></code> inplace configurations.</li>
+<li>Added the ability to add rules in <code class="docutils literal notranslate"><span class="pre">use:re2c</span></code> blocks.</li>
+<li>Changed <code class="docutils literal notranslate"><span class="pre">-r</span></code> flag to accept only <code class="docutils literal notranslate"><span class="pre">rules:re2c</span></code> and <code class="docutils literal notranslate"><span class="pre">use:re2c</span></code> blocks.</li>
+</ul>
+</div>
+<div class="section" id="id141">
+<h3>0.13.3 (2008-03-14)<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">-r</span></code> flag to allow reuse of scanner definitions.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">-F</span></code> flag to support flex syntax in rules.</li>
+<li>Fixed SEGV in scanner that occurs with very large blocks.</li>
+<li>Fixed issue with unused <code class="docutils literal notranslate"><span class="pre">yybm</span></code>.</li>
+<li>Partial support for flex syntax.</li>
+<li>Changed to allow <code class="docutils literal notranslate"><span class="pre">/*</span></code> comments with <code class="docutils literal notranslate"><span class="pre">-c</span></code> switch.</li>
+<li>Added flag <code class="docutils literal notranslate"><span class="pre">-D/--emit-dot</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id142">
+<h3>0.13.2 (2008-02-14)<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added flag <code class="docutils literal notranslate"><span class="pre">--case-inverted</span></code>.</li>
+<li>Added flag <code class="docutils literal notranslate"><span class="pre">--case-insensitive</span></code>.</li>
+<li>Added support for <code class="docutils literal notranslate"><span class="pre">&lt;!...&gt;</span></code> to enable rule setup.</li>
+<li>Added support for <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> style rules.</li>
+<li>Added support for <code class="docutils literal notranslate"><span class="pre">:=</span></code> style rules.</li>
+<li>Added support for <code class="docutils literal notranslate"><span class="pre">:=&gt;</span></code> style rules.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">re2c:cond:divider</span></code> and <code class="docutils literal notranslate"><span class="pre">re2c:cond:goto</span></code> inplace configuration.</li>
+<li>Fixed code generation to emit space after <code class="docutils literal notranslate"><span class="pre">if</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id143">
+<h3>0.13.1 (2007-08-24)<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added custom build rules for Visual Studio 2005 (<code class="docutils literal notranslate"><span class="pre">re2c.rules</span></code>).
+(William Swanson)</li>
+<li>Fixed issue with some compilers.</li>
+<li>Fixed #1776177 Build on AIX.</li>
+<li>Fixed #1743180 <code class="docutils literal notranslate"><span class="pre">fwrite</span></code> with 0 length crashes on OS X.</li>
+</ul>
+</div>
+<div class="section" id="id144">
+<h3>0.13.0 (2007-06-24)<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">-c</span></code> and <code class="docutils literal notranslate"><span class="pre">-t</span></code> to generate scanners with (f)lex-like condition
+support.</li>
+<li>Fixed issue with short form of switches and parameter if not first switch.</li>
+<li>Fixed #1708378 segfault <code class="docutils literal notranslate"><span class="pre">in</span> <span class="pre">actions.cc</span></code>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id145">
+<h2>0.12x<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id146">
+<h3>0.12.3 (2007-08-24)<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed issue with some compilers.</li>
+<li>Fixed #1776177 Build on AIX.</li>
+<li>Fixed #1743180 <code class="docutils literal notranslate"><span class="pre">fwrite</span></code> with 0 length crashes on OS X.</li>
+</ul>
+</div>
+<div class="section" id="id147">
+<h3>0.12.2 (2007-06-26)<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #1743180 <code class="docutils literal notranslate"><span class="pre">fwrite</span></code> with 0 length crashes on OS X.</li>
+</ul>
+</div>
+<div class="section" id="id148">
+<h3>0.12.1 (2007-05-23)<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #1711240 problem with <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">7F</span></code> on EBCDIC plattforms.</li>
+</ul>
+</div>
+<div class="section" id="id149">
+<h3>0.12.0 (2007-05-01)<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Re-release of 0.11.3 as new stable branch.</li>
+<li>Fixed issue with short form of switches and parameter if not first switch.</li>
+<li>Fixed #1708378 segfault in <code class="docutils literal notranslate"><span class="pre">actions.cc</span></code>.</li>
+<li>re2c 0.12.0 has been tested with the following compilers:<ul>
+<li>gcc version 4.1.2 (Gentoo 4.1.2)</li>
+<li>gcc version 4.1.2 20070302 (prerelease) (4.1.2-1mdv2007.1)</li>
+<li>gcc version 4.1.2 20061115 (prerelease) (Debian 4.1.1-21)</li>
+<li>gcc version 4.1.1 20070105 (Red Hat 4.1.1-51)</li>
+<li>gcc version 4.1.0 (SUSE Linux 10)</li>
+<li>gcc version 4.0.3 (4.0.3-0.20060215.2mdk for Mandriva Linux release 2006.1)</li>
+<li>gcc version 4.0.2 20050901 (prerelease) (SUSE Linux) (32 + 64 bit)</li>
+<li>MacPPC, gcc version 4.0.1 (Apple Computer, Inc. build 5367)</li>
+<li>MacIntel, gcc version 4.0.1 (Apple Computer, Inc. build 5250)</li>
+<li>gcc version 3.4.4 [FreeBSD] 20050518 (32 + 64 bit)</li>
+<li>gcc version 3.4.4 (cygming special) (gdc 0.12, using dmd 0.125)</li>
+<li>gcc version 3.4.2 [FreeBSD]</li>
+<li>gcc version 3.3.5 20050117 (prerelease) (SUSE Linux)</li>
+<li>gcc version 3.3.3 (PPC, 32 + 64 bit)</li>
+<li>Microsoft (R) C/C++ Optimizing Compiler Version 14.00.50727.762 for x64 (64 bit)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 14.00.50727.42 for 80x86 (Microsoft Visual C++ 2005)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.10.3077 for 80x86 (Mictosoft Visual C++ 2003)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.00.9466 for 80x86 (Microsoft Visual C++ 2002)</li>
+<li>Intel(R) C++ Compiler for 32-bit applications, Version 9.1 Build 20070322Z Package ID: W_CC_C_9.1.037</li>
+<li>Intel(R) C++ Compiler for Intel(R) EM64T-based applications, Version 9.1 (64 bit)</li>
+<li>icpcbin (ICC) 9.1 20070215</li>
+<li>CC: Sun C++ 5.8 2005/10/13 (<code class="docutils literal notranslate"><span class="pre">CXXFLAGS='-library=stlport4'</span></code>)</li>
+<li>MIPSpro Compilers: Version 7.4.4m (32 + 64 bit)</li>
+<li>aCC: HP C/aC++ B3910B A.06.15 [Mar 28 2007] (HP-UX IA64)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id150">
+<h2>0.11x<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id151">
+<h3>0.11.3 (2007-04-01)<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added support for underscores in named definitions.</li>
+<li>Added new option <code class="docutils literal notranslate"><span class="pre">--no-generation-date</span></code>.</li>
+<li>Fixed issue with long form of switches.</li>
+</ul>
+</div>
+<div class="section" id="id152">
+<h3>0.11.2 (2007-03-01)<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added inplace configuration <code class="docutils literal notranslate"><span class="pre">re2c:yyfill:parameter</span></code>.</li>
+<li>Added inplace configuration <code class="docutils literal notranslate"><span class="pre">re2c:yych:conversion</span></code>.</li>
+<li>Fixed <code class="docutils literal notranslate"><span class="pre">-u</span></code> switch code generation.</li>
+<li>Added ability to avoid defines and overwrite generated variable names.</li>
+</ul>
+</div>
+<div class="section" id="id153">
+<h3>0.11.1 (2007-02-20)<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Applied #1647875 Add <code class="docutils literal notranslate"><span class="pre">const</span></code> to <code class="docutils literal notranslate"><span class="pre">yybm</span></code> vector.</li>
+</ul>
+</div>
+<div class="section" id="id154">
+<h3>0.11.0 (2007-01-01)<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">-u</span></code> switch to support unicode.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id155">
+<h2>0.10x<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id156">
+<h3>0.10.8 (2007-04-01)<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed issue with long form of switches.</li>
+</ul>
+</div>
+<div class="section" id="id157">
+<h3>0.10.7 (2007-02-20)<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Applied #1647875 Add <code class="docutils literal notranslate"><span class="pre">const</span></code> to <code class="docutils literal notranslate"><span class="pre">yybm</span></code> vector.</li>
+</ul>
+</div>
+<div class="section" id="id158">
+<h3>0.10.6 (2006-08-05)<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #1529351 Segv bug on unterminated code blocks.</li>
+<li>Fixed #1528269 Invalid code generation.</li>
+</ul>
+</div>
+<div class="section" id="id159">
+<h3>0.10.5 (2006-06-11)<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed long form of <code class="docutils literal notranslate"><span class="pre">-1</span></code> switch to <code class="docutils literal notranslate"><span class="pre">--single-pass</span></code> as noted in man page
+and help.</li>
+<li>Added MSVC 2003 project files and renamed old 2002 ones.</li>
+</ul>
+</div>
+<div class="section" id="id160">
+<h3>0.10.4 (2006-06-01)<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fix whitespace in generated code.</li>
+</ul>
+</div>
+<div class="section" id="id161">
+<h3>0.10.3 (2006-05-14)<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed issue with <code class="docutils literal notranslate"><span class="pre">-wb</span></code> and <code class="docutils literal notranslate"><span class="pre">-ws</span></code>.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">-g</span></code> switch to support gcc’s computed goto’s.</li>
+<li>Changed to use nested <code class="docutils literal notranslate"><span class="pre">if</span></code>’s instead of <code class="docutils literal notranslate"><span class="pre">switch(yyaccept)</span></code> in <code class="docutils literal notranslate"><span class="pre">-s</span></code> mode.</li>
+</ul>
+</div>
+<div class="section" id="id162">
+<h3>0.10.2 (2006-05-01)<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Changed to generate <code class="docutils literal notranslate"><span class="pre">YYMARKER</span></code> only when needed or in single pass mode.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">-1</span></code> switch to force single pass generation and make two pass the
+default.</li>
+<li>Fixed <code class="docutils literal notranslate"><span class="pre">-i</span></code> switch.</li>
+<li>Added configuration <code class="docutils literal notranslate"><span class="pre">yyfill:enable</span></code> to allow suppression of <code class="docutils literal notranslate"><span class="pre">YYFILL()</span></code>
+blocks.</li>
+<li>Added tutorial like lessons to re2c.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">/*!ignore:re2c</span> <span class="pre">*/</span></code> to support documenting of re2c source.</li>
+<li>Fixed issue with multiline re2c comments (<code class="docutils literal notranslate"><span class="pre">/*!max:re2c</span> <span class="pre">...</span> <span class="pre">*/</span></code> and alike).</li>
+<li>Fixed generation of <code class="docutils literal notranslate"><span class="pre">YYDEBUG()</span></code> when using <code class="docutils literal notranslate"><span class="pre">-d</span></code> switch.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">/*!getstate:re2c</span> <span class="pre">*/</span></code> which triggers generation of the
+<code class="docutils literal notranslate"><span class="pre">YYGETSTATE()</span></code> block.</li>
+<li>Added configuration <code class="docutils literal notranslate"><span class="pre">state:abort</span></code>.</li>
+<li>Changed to not generate <code class="docutils literal notranslate"><span class="pre">yyNext</span></code> unless configuration <code class="docutils literal notranslate"><span class="pre">state:nextlabel</span></code> is
+used.</li>
+<li>Changed to not generate <code class="docutils literal notranslate"><span class="pre">yyaccept</span></code> code unless needed.</li>
+<li>Changed to use <code class="docutils literal notranslate"><span class="pre">if</span></code> instead of <code class="docutils literal notranslate"><span class="pre">switch</span></code> expression when <code class="docutils literal notranslate"><span class="pre">yyaccpt</span></code> has
+only one case.</li>
+<li>Added docu, examples and tests to <code class="docutils literal notranslate"><span class="pre">.src.zip</span></code> package (0.10.1 zip was
+repackaged).</li>
+<li>Fixed #1479044 incorrect code generated when using <code class="docutils literal notranslate"><span class="pre">-b</span></code>.</li>
+<li>Fixed #1472770 re2c creates an infinite loop.</li>
+<li>Fixed #1454253 Piece of code saving a backtracking point not generated.</li>
+<li>Fixed #1463639 Missing forward declaration.</li>
+<li>Implemented #1187127 savable state support for multiple re2c blocks.</li>
+<li>re2c 0.10.2 has been tested with the following compilers:<ul>
+<li>gcc (GCC) 4.1.0 (Gentoo 4.1.0)</li>
+<li>gcc version 4.0.3 (4.0.3-0.20060215.2mdk for Mandriva Linux release 2006.1)</li>
+<li>gcc version 4.0.2 20050901 (prerelease) (SUSE Linux)</li>
+<li>gcc (GCC) 3.4.5 (Gentoo 3.4.5, ssp-3.4.5-1.0, pie-8.7.9)</li>
+<li>gcc version 3.4.4 [FreeBSD] 20050518</li>
+<li>gcc version 3.4.4 (cygming special) (gdc 0.12, using dmd 0.125)</li>
+<li>gcc version 3.4.2 20041017 (Red Hat 3.4.2-6.fc3)</li>
+<li>gcc-Version 3.3.5 (Debian 1:3.3.5-13)</li>
+<li>gcc-Version 3.3.0 (mips-sgi-irix6.5/3.3.0/specs)</li>
+<li>MIPSpro Compilers: Version 7.4.4m</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 14.00.50727.42 for
+80x86 (Microsoft Visual C++ 2005)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.10.3077 for 80x86
+(Mictosoft Visual C++ 2003)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.00.9466 for 80x86
+(Microsoft Visual C++ 2002)</li>
+<li>Intel(R) C++ Compiler for Intel(R) EM64T-based applications, Version 9.0
+Build 20050430 Package ID: l_cc_p_9.0.021</li>
+<li>CC: Sun C++ 5.8 2005/10/13 (<code class="docutils literal notranslate"><span class="pre">CXXFLAGS='-library=stlport4'</span></code>)</li>
+<li>bison 2.1, 1.875d, 1.875b, 1.875</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id163">
+<h3>0.10.1 (2006-02-28)<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added support for Solaris and native SUN compiler.</li>
+<li>Applied #1438160 expose <code class="docutils literal notranslate"><span class="pre">YYCTXMARKER</span></code>.</li>
+<li>re2c 0.10.1 has been tested with the following compilers:<ul>
+<li>gcc version 4.0.3 (4.0.3-0.20060215.2mdk for Mandriva Linux release 2006.1)</li>
+<li>gcc version 4.0.2 (4.0.2-1mdk for Mandriva Linux release 2006.1)</li>
+<li>gcc version 4.0.2 20050901 (prerelease) (SUSE Linux)</li>
+<li>gcc version 3.4.4 (cygming special) (gdc 0.12, using dmd 0.125)</li>
+<li>gcc-Version 3.3.5 (Debian 1:3.3.5-13)</li>
+<li>gcc-Version 3.3.0 (mips-sgi-irix6.5/3.3.0/specs)</li>
+<li>MIPSpro Compilers: Version 7.4.4m</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 14.00.50727.42 for
+80x86 (Microsoft Visual C 2005)</li>
+<li>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.00.9466 for 80x86
+(Microsoft Visual C 2002)</li>
+<li>Intel(R) C++ Compiler for 32-bit applications, Version 9.0 Build 20051130Z
+Package ID: W_CC_C_9.0.028</li>
+<li>CC: Sun C++ 5.8 2005/10/13 (<code class="docutils literal notranslate"><span class="pre">CXXFLAGS='-compat5</span> <span class="pre">-library=stlport4'</span></code>)</li>
+<li>bison 2.1, 1.875d, 1.875b, 1.875</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id164">
+<h3>0.10.0 (2006-02-18)<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added make target <code class="docutils literal notranslate"><span class="pre">zip</span></code> to create windows source packages as zip files.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">re2c:startlabel</span></code> configuration.</li>
+<li>Fixed code generation to not generate unreachable code for initial state.</li>
+<li>Added support for c/c++ compatible <code class="docutils literal notranslate"><span class="pre">\u</span></code> and <code class="docutils literal notranslate"><span class="pre">\U</span></code> unicode notation.</li>
+<li>Added ability to control indendation.</li>
+<li>Made scanner error out in case an ambiguous <code class="docutils literal notranslate"><span class="pre">/*</span></code> is found.</li>
+<li>Fixed indendation of generated code.</li>
+<li>Added support for DOS line endings.</li>
+<li>Added experimental unicode support.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">config_w32.h</span></code> to build out of the box on windows (using msvc 2002+).</li>
+<li>Added Microsoft Visual C .NET 2005 build files.</li>
+<li>Applied #1411087 variable length trailing context.</li>
+<li>Applied #1408326 do not generate <code class="docutils literal notranslate"><span class="pre">goto</span></code> next state.</li>
+<li>Applied #1408282 <code class="docutils literal notranslate"><span class="pre">CharSet</span></code> initialization fix.</li>
+<li>Applied #1408278 <code class="docutils literal notranslate"><span class="pre">readsome</span></code> with MSVC.</li>
+<li>Applied #1307467 Unicode patch for 0.9.7.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id165">
+<h2>0.9x<a class="headerlink" href="#id165" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id166">
+<h3>0.9.12 (2005-12-28)<a class="headerlink" href="#id166" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed bug #1390174 re2c cannot accept <code class="docutils literal notranslate"><span class="pre">{0,}</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id167">
+<h3>0.9.11 (2005-12-18)<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed #1313083 <code class="docutils literal notranslate"><span class="pre">-e</span></code> (EBCDIC cross compile) broken.</li>
+<li>Fixed #1297658 underestimation of <code class="docutils literal notranslate"><span class="pre">n</span></code> in <code class="docutils literal notranslate"><span class="pre">YYFILL(n)</span></code>.</li>
+<li>Applied #1339483 Avoid rebuilds of re2c when running subtargets.</li>
+<li>Implemented #1335305 symbol table reimplementation, just slightly modifed.</li>
+</ul>
+</div>
+<div class="section" id="id168">
+<h3>0.9.10 (2005-09-04)<a class="headerlink" href="#id168" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add <code class="docutils literal notranslate"><span class="pre">-i</span></code> switch to avoid generating <code class="docutils literal notranslate"><span class="pre">#line</span></code> information.</li>
+<li>Fixed bug #1251653 re2c generate some invalid <code class="docutils literal notranslate"><span class="pre">#line</span></code> on WIN32.</li>
+</ul>
+</div>
+<div class="section" id="id169">
+<h3>0.9.9 (2005-07-21)<a class="headerlink" href="#id169" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Implemented #1232777 negated char classes <code class="docutils literal notranslate"><span class="pre">[^...]</span></code> and the dot operator <code class="docutils literal notranslate"><span class="pre">.</span></code>.</li>
+<li>Added hexadecimal character definitions.</li>
+<li>Added consistency check for octal character definitions.</li>
+</ul>
+</div>
+<div class="section" id="id170">
+<h3>0.9.8 (2005-06-26)<a class="headerlink" href="#id170" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed code generation for <code class="docutils literal notranslate"><span class="pre">-b</span></code> switch.</li>
+<li>Added Microsoft Visual C .NET build files.</li>
+</ul>
+</div>
+<div class="section" id="id171">
+<h3>0.9.7 (2005-04-30)<a class="headerlink" href="#id171" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Applied #1181535 storable state patch.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag which outputs a debugable parser.</li>
+<li>Fixed generation of <code class="docutils literal notranslate"><span class="pre">#line</span></code> directives (according to ISO-C99).</li>
+<li>Fixed bug #1187785 Re2c fails to generate valid code.</li>
+<li>Fixed bug #1187452 unused variable <code class="docutils literal notranslate"><span class="pre">yyaccept</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id172">
+<h3>0.9.6 (2005-04-14)<a class="headerlink" href="#id172" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fix build with gcc &gt;= 3.4.</li>
+</ul>
+</div>
+<div class="section" id="id173">
+<h3>0.9.5 (2005-04-08)<a class="headerlink" href="#id173" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">/*!max:re2c</span> <span class="pre">*/</span></code> which emits <code class="docutils literal notranslate"><span class="pre">#define</span> <span class="pre">YYMAXFILL</span> <span class="pre">&lt;max&gt;</span></code>
+line. This allows to define buffers of the minimum required length.
+Occurence must follow <code class="docutils literal notranslate"><span class="pre">/*re2c</span> <span class="pre">*/</span></code> and cannot preceed it.</li>
+<li>Changed re2c to two pass generation to output warning free code.</li>
+<li>Fixed bug #1163046 re2c hangs when processing valid re-file.</li>
+<li>Fixed bug #1022799 re2c scanner has buffering bug.</li>
+</ul>
+</div>
+<div class="section" id="id174">
+<h3>0.9.4 (2005-03-12)<a class="headerlink" href="#id174" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">--vernum</span></code> support.</li>
+<li>Fixed bug #1054496 incorrect code generated with <code class="docutils literal notranslate"><span class="pre">-b</span></code> option.</li>
+<li>Fixed bug #1012748 re2c does not emit last line if <code class="docutils literal notranslate"><span class="pre">\n</span></code> missing.</li>
+<li>Fixed bug #999104 <code class="docutils literal notranslate"><span class="pre">--output=output</span></code> option does not work as documented.</li>
+<li>Fixed bug #999103 Invalid options prefixed with two dashes cause program
+crash.</li>
+</ul>
+</div>
+<div class="section" id="id175">
+<h3>0.9.3 (2004-05-26)<a class="headerlink" href="#id175" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixes one small possible bug in the generated output. <code class="docutils literal notranslate"><span class="pre">ych</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">yych</span></code> is output in certain circumstances.</li>
+</ul>
+</div>
+<div class="section" id="id176">
+<h3>0.9.2 (2004-05-26)<a class="headerlink" href="#id176" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">-o</span></code> option to specify the output file which also will set the
+<code class="docutils literal notranslate"><span class="pre">#line</span></code> directives to something useful.</li>
+<li>Print version to <code class="docutils literal notranslate"><span class="pre">cout</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cerr</span></code>.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">-h</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code> style options.</li>
+<li>Moved development to <a class="reference external" href="http://sourceforge.net/projects/re2c">http://sourceforge.net/projects/re2c</a></li>
+<li>Fixed bug #960144 minor cosmetic problem.</li>
+<li>Fixed bug #953181 cannot compile with.</li>
+<li>Fixed bug #939277 Windows support.</li>
+<li>Fixed bug #914462 automake build patch</li>
+<li>Fixed bug #891940 braced quantifiers: <code class="docutils literal notranslate"><span class="pre">{\d+(,|,\d+)?}</span></code> style.</li>
+<li>Fixed bug #869298 Add case insensitive string literals.</li>
+<li>Fixed bug #869297 Input buffer overrun.</li>
+</ul>
+</div>
+<div class="section" id="id177">
+<h3>0.9.1 (2003-12-13)<a class="headerlink" href="#id177" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Removed rcs comments in source files.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="re2c-adopted-2003-12-09">
+<h2>re2c adopted (2003-12-09)<a class="headerlink" href="#re2c-adopted-2003-12-09" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Version 0.9.1 README:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Originally</span> <span class="n">written</span> <span class="n">by</span> <span class="n">Peter</span> <span class="n">Bumbulis</span> <span class="p">(</span><span class="n">peter</span><span class="nd">@csg</span><span class="o">.</span><span class="n">uwaterloo</span><span class="o">.</span><span class="n">ca</span><span class="p">)</span>
+<span class="n">Currently</span> <span class="n">maintained</span> <span class="n">by</span> <span class="n">Brian</span> <span class="n">Young</span> <span class="p">(</span><span class="n">bayoung</span><span class="nd">@acm</span><span class="o">.</span><span class="n">org</span><span class="p">)</span>
+
+<span class="n">The</span> <span class="n">re2c</span> <span class="n">distribution</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">at</span><span class="p">:</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">tildeslash</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">re2c</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+
+<span class="n">The</span> <span class="n">source</span> <span class="n">distribution</span> <span class="ow">is</span> <span class="n">available</span> <span class="n">from</span><span class="p">:</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">tildeslash</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">re2c</span><span class="o">/</span><span class="n">re2c</span><span class="o">-</span><span class="mf">0.9</span><span class="o">.</span><span class="mf">1.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+
+<span class="n">This</span> <span class="n">distribution</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">cleaned</span> <span class="n">up</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="mf">0.5</span> <span class="n">release</span>
+<span class="n">maintained</span> <span class="n">by</span> <span class="n">me</span> <span class="p">(</span><span class="n">Brian</span> <span class="n">Young</span><span class="p">)</span><span class="o">.</span> <span class="n">Several</span> <span class="n">bugs</span> <span class="n">were</span> <span class="n">fixed</span> <span class="k">as</span> <span class="n">well</span>
+<span class="k">as</span> <span class="n">code</span> <span class="n">cleanup</span> <span class="k">for</span> <span class="n">warning</span> <span class="n">free</span> <span class="n">compilation</span><span class="o">.</span> <span class="n">It</span> <span class="n">has</span> <span class="n">been</span>
+<span class="n">developed</span> <span class="ow">and</span> <span class="n">tested</span> <span class="k">with</span> <span class="n">egcs</span> <span class="mf">1.0</span><span class="o">.</span><span class="mi">2</span> <span class="ow">and</span> <span class="n">gcc</span> <span class="mf">2.7</span><span class="o">.</span><span class="mf">2.3</span> <span class="n">on</span> <span class="n">Linux</span> <span class="n">x86</span><span class="o">.</span>
+<span class="n">Peter</span> <span class="n">Bumbulis</span><span class="s1">&#39; original release can be found at:</span>
+<span class="n">ftp</span><span class="p">:</span><span class="o">//</span><span class="n">csg</span><span class="o">.</span><span class="n">uwaterloo</span><span class="o">.</span><span class="n">ca</span><span class="o">/</span><span class="n">pub</span><span class="o">/</span><span class="n">peter</span><span class="o">/</span><span class="n">re2c</span><span class="o">.</span><span class="mf">0.5</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+
+<span class="n">re2c</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">great</span> <span class="n">tool</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">fast</span> <span class="ow">and</span> <span class="n">flexible</span> <span class="n">lexers</span><span class="o">.</span>
+<span class="n">It</span> <span class="n">has</span> <span class="n">served</span> <span class="n">many</span> <span class="n">people</span> <span class="n">well</span> <span class="k">for</span> <span class="n">many</span> <span class="n">years</span> <span class="ow">and</span> <span class="n">it</span> <span class="n">deserves</span>
+<span class="n">to</span> <span class="n">be</span> <span class="n">maintained</span> <span class="n">more</span> <span class="n">actively</span><span class="o">.</span> <span class="n">re2c</span> <span class="ow">is</span> <span class="n">on</span> <span class="n">the</span> <span class="n">order</span> <span class="n">of</span> <span class="mi">2</span><span class="o">-</span><span class="mi">3</span>
+<span class="n">times</span> <span class="n">faster</span> <span class="n">than</span> <span class="n">a</span> <span class="n">flex</span> <span class="n">based</span> <span class="n">scanner</span><span class="p">,</span> <span class="ow">and</span> <span class="n">its</span> <span class="nb">input</span> <span class="n">model</span>
+<span class="ow">is</span> <span class="n">much</span> <span class="n">more</span> <span class="n">flexible</span><span class="o">.</span>
+
+<span class="n">Patches</span> <span class="ow">and</span> <span class="n">requests</span> <span class="k">for</span> <span class="n">features</span> <span class="n">will</span> <span class="n">be</span> <span class="n">entertained</span><span class="o">.</span> <span class="n">Areas</span>
+<span class="n">of</span> <span class="n">particular</span> <span class="n">interest</span> <span class="n">to</span> <span class="n">me</span> <span class="n">are</span> <span class="n">porting</span> <span class="p">(</span><span class="n">a</span> <span class="n">Solaris</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">NT</span>
+<span class="n">version</span> <span class="n">will</span> <span class="n">be</span> <span class="n">forthcoming</span><span class="p">)</span> <span class="ow">and</span> <span class="n">wide</span> <span class="n">character</span> <span class="n">support</span><span class="o">.</span> <span class="n">Note</span>
+<span class="n">that</span> <span class="n">the</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">already</span> <span class="n">quite</span> <span class="n">portable</span> <span class="ow">and</span> <span class="n">should</span> <span class="n">be</span> <span class="n">buildable</span>
+<span class="n">on</span> <span class="nb">any</span> <span class="n">platform</span> <span class="k">with</span> <span class="n">minor</span> <span class="n">makefile</span> <span class="n">changes</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Version 0.5 Peter’s original ANNOUNCE and README:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>re2c is a tool for generating C-based recognizers from regular
+expressions. re2c-based scanners are efficient: for programming
+languages, given similar specifications, an re2c-based scanner
+is typically almost twice as fast as a flex-based scanner with
+little or no increase in size (possibly a decrease on cisc
+architectures). Indeed, re2c-based scanners are quite competitive
+with hand-crafted ones.
+
+Unlike flex, re2c does not generate complete scanners: the user
+must supply some interface code. While this code is not bulky
+(about 50-100 lines for a flex-like scanner; see the man page
+and examples in the distribution) careful coding is required for
+efficiency (and correctness). One advantage of this arrangement
+is that the generated code is not tied to any particular input
+model. For example, re2c generated code can be used to scan
+data from a null-byte terminated buffer as illustrated below.
+
+Given the following source:
+
+    #define NULL        ((char*) 0)
+    char *scan(char *p) {
+    char *q;
+    #define YYCTYPE     char
+    #define YYCURSOR    p
+    #define YYLIMIT     p
+    #define YYMARKER    q
+    #define YYFILL(n)
+    /*!re2c
+        [0-9]+      {return YYCURSOR;}
+        [\000-\377] {return NULL;}
+    */
+    }
+
+re2c will generate:
+
+    /* Generated by re2c on Sat Apr 16 11:40:58 1994 */
+    #line 1 &quot;simple.re&quot;
+    #define NULL        ((char*) 0)
+    char *scan(char *p) {
+    char *q;
+    #define YYCTYPE     char
+    #define YYCURSOR    p
+    #define YYLIMIT     p
+    #define YYMARKER    q
+    #define YYFILL(n)
+    {
+            YYCTYPE yych;
+            unsigned int yyaccept;
+            goto yy0;
+    yy1:    ++YYCURSOR;
+    yy0:
+            if((YYLIMIT - YYCURSOR) &lt; 2) YYFILL(2);
+            yych = *YYCURSOR;
+            if(yych &lt;= &#39;/&#39;) goto yy4;
+            if(yych &gt;= &#39;:&#39;) goto yy4;
+    yy2:    yych = *++YYCURSOR;
+            goto yy7;
+    yy3:
+    #line 10
+            {return YYCURSOR;}
+    yy4:    yych = *++YYCURSOR;
+    yy5:
+    #line 11
+            {return NULL;}
+    yy6:    ++YYCURSOR;
+            if(YYLIMIT == YYCURSOR) YYFILL(1);
+            yych = *YYCURSOR;
+    yy7:    if(yych &lt;= &#39;/&#39;) goto yy3;
+            if(yych &lt;= &#39;9&#39;) goto yy6;
+            goto yy3;
+    }
+    #line 12
+
+    }
+
+Note that most compilers will perform dead-code elimination to
+remove all YYCURSOR, YYLIMIT comparisions.
+
+re2c was developed for a particular project (constructing a fast
+REXX scanner of all things!) and so while it has some rough edges,
+it should be quite usable. More information about re2c can be
+found in the (admittedly skimpy) man page; the algorithms and
+heuristics used are described in an upcoming LOPLAS article
+(included in the distribution). Probably the best way to find out
+more about re2c is to try the supplied examples. re2c is written in
+C++, and is currently being developed under Linux using gcc 2.5.8.
+
+Peter
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+      Last updated on Dec 27, 2019.
+    </div>
+  </body>
+</html>

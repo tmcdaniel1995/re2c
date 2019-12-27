@@ -1,0 +1,249 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>/etc/passwd &#8212; re2c 1.2 documentation</title>
+    <link rel="stylesheet" href="../_static/theme-re2c.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="alternate" type="application/atom+xml" href="../feed/atom.xml" title="Atom 1.0" />
+    
+ 
+  </head><body>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="re2c-logo">
+    re2c
+</div>
+
+<h3><a href="../index.html">Home</a></h3>
+<div class="re2c-toc-global">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../manual/manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">Build instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/release_notes.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/changelog/changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="etc-passwd">
+<h1>/etc/passwd<a class="headerlink" href="#etc-passwd" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to parse simple file formats such as the <code class="docutils literal notranslate"><span class="pre">/etc/passwd</span></code> file.
+This file consists of multiple lines of the form <code class="docutils literal notranslate"><span class="pre">user</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">password</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">UID</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">GID</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">info</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">home</span></code> <code class="docutils literal notranslate"><span class="pre">:</span></code> <code class="docutils literal notranslate"><span class="pre">command</span></code>.
+Our example file is the following <a class="reference download internal" href="../_downloads/09_etc_passwd.txt" download=""><code class="xref download docutils literal notranslate"><span class="pre">[/etc/passwd]</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="n">root</span><span class="p">:</span><span class="o">/</span><span class="n">root</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="nb">bin</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">false</span>
+<span class="n">portage</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">250</span><span class="p">:</span><span class="mi">250</span><span class="p">:</span><span class="n">portage</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">portage</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">false</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../_downloads/09_etc_passwd.i--tags.re" download=""><code class="xref download docutils literal notranslate"><span class="pre">[etc_passwd.re]</span></code></a></p>
+<div class="highlight-cpp notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*!max:re2c*/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">lex</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">YYCURSOR</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">YYMARKER</span><span class="p">,</span> <span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="o">*</span><span class="n">u</span><span class="p">,</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">;</span>
+    <span class="cm">/*!stags:re2c format = &#39;const char *@@;&#39;; */</span>
+<span class="nl">loop</span><span class="p">:</span>
+    <span class="cm">/*!re2c</span>
+<span class="cm">        re2c:define:YYCTYPE = char;</span>
+<span class="cm">        re2c:yyfill:enable = 0;</span>
+
+<span class="cm">        end  = &quot;\x00&quot;;</span>
+<span class="cm">        eol  = &quot;\n&quot;;</span>
+<span class="cm">        sep  = [:];</span>
+<span class="cm">        char = [^] \ (end | eol | sep);</span>
+<span class="cm">        user = char+;</span>
+<span class="cm">        pass = char*;</span>
+<span class="cm">        uid  = [0-9]+;</span>
+<span class="cm">        gid  = [0-9]+;</span>
+<span class="cm">        info = char*;</span>
+<span class="cm">        home = &quot;/&quot; char*;</span>
+<span class="cm">        cmd  = &quot;/&quot; char*;</span>
+
+<span class="cm">        *   { printf(&quot;error\n&quot;); return 1; }</span>
+<span class="cm">        end { return 0; }</span>
+
+<span class="cm">        @n user sep</span>
+<span class="cm">        @p pass sep</span>
+<span class="cm">        @u uid  sep</span>
+<span class="cm">        @g gid  sep</span>
+<span class="cm">        @f info sep</span>
+<span class="cm">        @h home sep</span>
+<span class="cm">        @c cmd  eol {</span>
+<span class="cm">            printf(&quot;user:     %.*s\n&quot;, (int)(p - n) - 1, n);</span>
+<span class="cm">            printf(&quot;password: %.*s\n&quot;, (int)(u - p) - 1, p);</span>
+<span class="cm">            printf(&quot;UID:      %.*s\n&quot;, (int)(g - u) - 1, u);</span>
+<span class="cm">            printf(&quot;GID:      %.*s\n&quot;, (int)(f - g) - 1, g);</span>
+<span class="cm">            printf(&quot;info:     %.*s\n&quot;, (int)(h - f) - 1, f);</span>
+<span class="cm">            printf(&quot;home:     %.*s\n&quot;, (int)(c - h) - 1, h);</span>
+<span class="cm">            printf(&quot;command:  %.*s\n&quot;, (int)(YYCURSOR - c - 1), c);</span>
+<span class="cm">            printf(&quot;\n&quot;);</span>
+<span class="cm">            goto loop;</span>
+<span class="cm">        }</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;no input files</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;r&quot;</span><span class="p">);</span>
+
+    <span class="n">fseek</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SEEK_END</span><span class="p">);</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">fsize</span> <span class="o">=</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span> <span class="n">ftell</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="n">fseek</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SEEK_SET</span><span class="p">);</span>
+
+    <span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">fsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">fread</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+    <span class="n">buffer</span><span class="p">[</span><span class="n">fsize</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">status</span> <span class="o">=</span> <span class="n">lex</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Compile:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ re2c --tags -o etc_passwd.cc etc_passwd.re
+$ g++ -o etc_passwd etc_passwd.cc
+</pre></div>
+</div>
+<p>Run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./etc_passwd /etc/passwd
+user:     root
+password: x
+UID:      <span class="m">0</span>
+GID:      <span class="m">0</span>
+info:     root
+home:     /root
+command:  /bin/bash
+
+user:     bin
+password: x
+UID:      <span class="m">1</span>
+GID:      <span class="m">1</span>
+info:     bin
+home:     /bin
+command:  /bin/false
+
+user:     portage
+password: x
+UID:      <span class="m">250</span>
+GID:      <span class="m">250</span>
+info:     portage
+home:     /var/tmp/portage
+command:  /bin/false
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+      Last updated on Dec 27, 2019.
+    </div>
+  </body>
+</html>
